@@ -1,4 +1,4 @@
-package sessionBeans;
+package beans.session;
 
 import java.util.Iterator;
 import java.util.List;

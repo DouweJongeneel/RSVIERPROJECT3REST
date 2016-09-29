@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities;
+package beans.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -206,7 +206,7 @@ public class Activity implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Activity[ id=" + id + " ]";
+        return "beans.entity.Activity[ id=" + id + " ]";
     }
     
 }

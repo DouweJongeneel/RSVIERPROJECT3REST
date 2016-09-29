@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sessionBeans;
+package beans.session;
 
-import entityBeans.Category;
+import entityBeans.ActivityHasOrganiser;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author douwejongeneel
  */
 @javax.ejb.Stateless
-public class CategoryFacade extends AbstractFacade<Category> {
+public class ActivityHasOrganiserFacade extends AbstractFacade<ActivityHasOrganiser> {
 
     @PersistenceContext(unitName = "rsvier_workshop3.rest_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -24,8 +24,8 @@ public class CategoryFacade extends AbstractFacade<Category> {
         return em;
     }
 
-    public CategoryFacade() {
-        super(Category.class);
+    public ActivityHasOrganiserFacade() {
+        super(ActivityHasOrganiser.class);
     }
     
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities;
+package beans.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -115,7 +115,7 @@ public class ActivityHasOrganiser implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.ActivityHasOrganiser[ id=" + id + " ]";
+        return "beans.entity.ActivityHasOrganiser[ id=" + id + " ]";
     }
     
 }

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sessionBeans;
+package beans.session;
 
-import entityBeans.PaymentMethod;
+import entityBeans.Activity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author douwejongeneel
  */
 @javax.ejb.Stateless
-public class PaymentMethodFacade extends AbstractFacade<PaymentMethod> {
+public class ActivityFacade extends AbstractFacade<Activity> {
 
     @PersistenceContext(unitName = "rsvier_workshop3.rest_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -24,8 +24,8 @@ public class PaymentMethodFacade extends AbstractFacade<PaymentMethod> {
         return em;
     }
 
-    public PaymentMethodFacade() {
-        super(PaymentMethod.class);
+    public ActivityFacade() {
+        super(Activity.class);
     }
     
 }
