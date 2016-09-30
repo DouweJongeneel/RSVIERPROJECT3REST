@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 @javax.ejb.Stateless
 public class AddressFacade extends AbstractFacade<Address> {
 
-    @PersistenceContext(unitName = "rsvier_workshop3.rest_war_1.0-SNAPSHOTPU")
+    @PersistenceContext(unitName = "workshop3BPU")
     private EntityManager em;
 
     @Override

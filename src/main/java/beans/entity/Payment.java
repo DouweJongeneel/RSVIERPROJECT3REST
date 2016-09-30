@@ -6,11 +6,10 @@
 package beans.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Date;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -19,7 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,11 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p"),
-    @NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.paymentPK.id = :id"),
     @NamedQuery(name = "Payment.findByPaymentDate", query = "SELECT p FROM Payment p WHERE p.paymentDate = :paymentDate"),
     @NamedQuery(name = "Payment.findByPaymentDetails", query = "SELECT p FROM Payment p WHERE p.paymentDetails = :paymentDetails"),
-    @NamedQuery(name = "Payment.findByInvoiceId", query = "SELECT p FROM Payment p WHERE p.paymentPK.invoiceId = :invoiceId"),
-    @NamedQuery(name = "Payment.findByUserId", query = "SELECT p FROM Payment p WHERE p.paymentPK.userId = :userId")})
+})
 public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,7 +52,7 @@ public class Payment implements Serializable {
     @NotNull
     @Column(name = "paymentDate")
     @Temporal(TemporalType.DATE)
-    private String paymentDate;
+    private Date paymentDate;
     
     @Basic(optional = false)
     @NotNull
@@ -63,15 +60,15 @@ public class Payment implements Serializable {
     @Column(name = "paymentDetails")
     private String paymentDetails;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "payment")
-    private Collection<PaymentMethod> paymentMethodCollection;
+    @OneToOne
+    private PaymentMethod paymentMethod;
     
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private User user;
     
     @JoinColumn(name = "invoice_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Invoice invoice;
 
     public Payment() {
@@ -81,7 +78,7 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public Payment(String paymentDate, String paymentDetails) {
+    public Payment(Date paymentDate, String paymentDetails) {
         this.paymentDate = paymentDate;
         this.paymentDetails = paymentDetails;
     }
@@ -96,11 +93,11 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public String getPaymentDate() {
+    public Date getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(String paymentDate) {
+    public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
     }
 
@@ -113,12 +110,12 @@ public class Payment implements Serializable {
     }
 
     @XmlTransient
-    public Collection<PaymentMethod> getPaymentMethodCollection() {
-        return paymentMethodCollection;
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPaymentMethodCollection(Collection<PaymentMethod> paymentMethodCollection) {
-        this.paymentMethodCollection = paymentMethodCollection;
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public User getUser() {
