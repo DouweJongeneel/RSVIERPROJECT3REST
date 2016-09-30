@@ -7,6 +7,7 @@ package beans.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -116,29 +117,31 @@ public class User implements Serializable {
     private Collection<Payment> paymentCollection;
 
     public User() {
+        this.dateCreated = new Date(System.currentTimeMillis()).toString();
     }
 
     public User(Long id) {
         this.id = id;
+        this.dateCreated = new Date(System.currentTimeMillis()).toString();
     }
     
-    public User(String firstname, String lastname, String insertion, String email, String password, String role, String dateCreated) {
+    public User(String firstname, String lastname, String insertion, String email, String password, String role) {
         this.firstname = firstname;
         this.insertion = insertion;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.dateCreated = dateCreated;
+        this.dateCreated = new Date(System.currentTimeMillis()).toString();
     }
 
-    public User(String firstname, String lastname, String email, String password, String role, String dateCreated) {
+    public User(String firstname, String lastname, String email, String password, String role) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.dateCreated = dateCreated;
+        this.dateCreated = new Date(System.currentTimeMillis()).toString();
     }
 
     public Long getId() {
