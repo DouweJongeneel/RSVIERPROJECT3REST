@@ -5,7 +5,7 @@
  */
 package beans.session;
 
-import entityBeans.ActivityHasOrganiser;
+import beans.entity.ActivityHasOrganiser;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 

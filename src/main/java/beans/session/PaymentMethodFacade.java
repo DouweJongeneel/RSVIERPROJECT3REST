@@ -5,7 +5,7 @@
  */
 package beans.session;
 
-import entityBeans.PaymentMethod;
+import beans.entity.PaymentMethod;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 

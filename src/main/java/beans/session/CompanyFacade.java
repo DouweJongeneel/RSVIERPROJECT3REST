@@ -5,7 +5,7 @@
  */
 package beans.session;
 
-import entityBeans.Company;
+import beans.entity.Company;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
