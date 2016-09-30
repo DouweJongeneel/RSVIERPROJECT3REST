@@ -7,6 +7,7 @@ import javax.ws.rs.*;
 import javax.ejb.EJB;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -28,26 +29,26 @@ public class UserResource {
 
     @GET
     @Path("/{userId}")
-    @Produces(MediaType.TEXT_HTML)
-    public String getUserById(@PathParam("userId") Long id) {
-        return "<html> " + "<title>" + "RESTFul" + "</title>" +
-                "<body><h1>" + "Return a User!" + "</body></h1>" + "</html> ";
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUserById(@PathParam("userId") Long id) {
+        User user = new User("Douwe", "Jongeneel", "douwe@jongeneel.com", "1234", "ADMIN");
+        return user;
     }
 
-    @GET
+    @POST
     @Path("/register/{user}")
-    @Produces(MediaType.TEXT_HTML)
-    public String registerUser(@PathParam("user") String user) {
-        return "<html> " + "<title>" + "RESTFul" + "</title>" +
-                "<body><h1>" + "Register a User!" + "</body></h1>" + "</html> ";
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response registerUser(@PathParam("user") String user) {
+        String result = "Record entered: " + user;
+        return Response.status(201).entity(result).build();
     }
 
-    @GET
+    @POST
     @Path("/update/{userId}")
-    @Produces(MediaType.TEXT_HTML)
-    public String updateUserById(@PathParam("userId") Long id) {
-        return "<html> " + "<title>" + "RESTFul" + "</title>" +
-                "<body><h1>" + "Update a User!" + "</body></h1>" + "</html> ";
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateUserById(@PathParam("userId") Long id) {
+        String result = "Record updated: " + id;
+        return Response.status(201).entity(id).build();
     }
 
 }

@@ -42,6 +42,9 @@
     <orderEntry type="library" name="Maven: org.eclipse.persistence:org.eclipse.persistence.moxy:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.persistence:org.eclipse.persistence.core:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.persistence:org.eclipse.persistence.asm:2.6.0" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-client:1.19.2" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-core:1.19.2" level="project" />
+    <orderEntry type="library" name="Maven: javax.ws.rs:jsr311-api:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: javax.ejb:javax.ejb-api:3.2" level="project" />
     <orderEntry type="library" name="Maven: javax.transaction:javax.transaction-api:1.2" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.persistence:eclipselink:2.6.4-RC1" level="project" />
