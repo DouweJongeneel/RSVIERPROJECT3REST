@@ -7,7 +7,6 @@ import javax.ws.rs.*;
 import javax.ejb.EJB;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
