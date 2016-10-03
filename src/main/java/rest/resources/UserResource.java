@@ -6,9 +6,8 @@ import beans.session.UserFacade;
 import javax.ws.rs.*;
 import javax.ejb.EJB;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.util.List;
+
 
 /**
  * Created by douwejongeneel on 30/09/2016.
@@ -48,7 +47,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateUserById(@PathParam("userId") Long id) {
         String result = "Record updated: " + id;
-        return Response.status(201).entity(id).build();
+        return Response.status(201).entity(result).build();
     }
 
 }
