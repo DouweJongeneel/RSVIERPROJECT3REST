@@ -6,8 +6,7 @@ import beans.session.UserFacade;
 import javax.ws.rs.*;
 import javax.ejb.EJB;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 /**
  * Created by douwejongeneel on 30/09/2016.
