@@ -36,208 +36,195 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "address")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a"),
-    @NamedQuery(name = "Address.findById", query = "SELECT a FROM Address a WHERE a.id = :id"),
-    @NamedQuery(name = "Address.findByStreet", query = "SELECT a FROM Address a WHERE a.street = :street"),
-    @NamedQuery(name = "Address.findByNumber", query = "SELECT a FROM Address a WHERE a.number = :number"),
-    @NamedQuery(name = "Address.findByAddition", query = "SELECT a FROM Address a WHERE a.addition = :addition"),
-    @NamedQuery(name = "Address.findByZipcode", query = "SELECT a FROM Address a WHERE a.zipcode = :zipcode"),
-    @NamedQuery(name = "Address.findByCity", query = "SELECT a FROM Address a WHERE a.city = :city"),
-    @NamedQuery(name = "Address.findByDateCreated", query = "SELECT a FROM Address a WHERE a.dateCreated = :dateCreated"),
-    @NamedQuery(name = "Address.findByDateModified", query = "SELECT a FROM Address a WHERE a.dateModified = :dateModified")})
+	@NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a"),
+	@NamedQuery(name = "Address.findById", query = "SELECT a FROM Address a WHERE a.id = :id"),
+	@NamedQuery(name = "Address.findByStreet", query = "SELECT a FROM Address a WHERE a.street = :street"),
+	@NamedQuery(name = "Address.findByNumber", query = "SELECT a FROM Address a WHERE a.number = :number"),
+	@NamedQuery(name = "Address.findByAddition", query = "SELECT a FROM Address a WHERE a.addition = :addition"),
+	@NamedQuery(name = "Address.findByZipcode", query = "SELECT a FROM Address a WHERE a.zipcode = :zipcode"),
+	@NamedQuery(name = "Address.findByCity", query = "SELECT a FROM Address a WHERE a.city = :city"),
+	@NamedQuery(name = "Address.findByDateCreated", query = "SELECT a FROM Address a WHERE a.dateCreated = :dateCreated"),
+	@NamedQuery(name = "Address.findByDateModified", query = "SELECT a FROM Address a WHERE a.dateModified = :dateModified")})
 public class Address implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Long id;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "street")
-    private String street;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "number")
-    private int number;
-    
-    @Size(max = 45)
-    @Column(name = "addition")
-    private String addition;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "zipcode")
-    private String zipcode;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "city")
-    private String city;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "dateCreated")
-    @Temporal(TemporalType.TIMESTAMP)
-    private String dateCreated;
-    
-    @Column(name = "dateModified")
-    @Temporal(TemporalType.TIMESTAMP)
-    private String dateModified;
-    
-    @JoinColumn(name = "company_id", referencedColumnName = "id")
-    @ManyToOne
-    private Company companyId;
-    
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
-    private User userId;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "address")
-    private Collection<Activity> activityCollection;
+	private static final long serialVersionUID = 1L;
 
-    public Address() {
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@Column(name = "id")
+	private Long id;
 
-    public Address(Long id) {
-        this.id = id;
-    }
-    public Address(String street, int number, String zipcode, String city) {
-        this.street = street;
-        this.number = number;
-        this.addition = "";
-        this.zipcode = zipcode;
-        this.city = city;
-    }
+	@Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "street")
+	private String street;
 
-    public Address(String street, int number, String addition, String zipcode, String city) {
-        this.street = street;
-        this.number = number;
-        this.addition = addition;
-        this.zipcode = zipcode;
-        this.city = city;
-        this.dateCreated = new Date(System.currentTimeMillis()).toString();
-    }
+	@Basic(optional = false)
+	@NotNull
+	@Column(name = "number")
+	private int number;
 
-    public Long getId() {
-        return id;
-    }
+	@Size(max = 45)
+	@Column(name = "addition")
+	private String addition;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 45)
+	@Column(name = "zipcode")
+	private String zipcode;
 
-    public String getStreet() {
-        return street;
-    }
+	@Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "city")
+	private String city;
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
+	@Basic(optional = false)
+	@NotNull
+	@Column(name = "dateCreated")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateCreated;
 
-    public int getNumber() {
-        return number;
-    }
+	@Column(name = "dateModified")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateModified;
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@ManyToOne
+	private User userId;
 
-    public String getAddition() {
-        return addition;
-    }
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "address")
+	private Collection<Activity> activityCollection;
 
-    public void setAddition(String addition) {
-        this.addition = addition;
-    }
+	public Address() {
+	}
 
-    public String getZipcode() {
-        return zipcode;
-    }
+	public Address(Long id) {
+		this.id = id;
+	}
+	public Address(String street, int number, String zipcode, String city) {
+		this.street = street;
+		this.number = number;
+		this.addition = "";
+		this.zipcode = zipcode;
+		this.city = city;
+	}
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
+	public Address(String street, int number, String addition, String zipcode, String city) {
+		this.street = street;
+		this.number = number;
+		this.addition = addition;
+		this.zipcode = zipcode;
+		this.city = city;
+		this.dateCreated = new Date(System.currentTimeMillis());
+	}
 
-    public String getCity() {
-        return city;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getDateCreated() {
-        return dateCreated;
-    }
+	public String getStreet() {
+		return street;
+	}
 
-    public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+	public void setStreet(String street) {
+		this.street = street;
+	}
 
-    public String getDateModified() {
-        return dateModified;
-    }
+	public int getNumber() {
+		return number;
+	}
 
-    public void setDateModified(String dateModified) {
-        this.dateModified = dateModified;
-    }
+	public void setNumber(int number) {
+		this.number = number;
+	}
 
-    public Company getCompanyId() {
-        return companyId;
-    }
+	public String getAddition() {
+		return addition;
+	}
 
-    public void setCompanyId(Company companyId) {
-        this.companyId = companyId;
-    }
+	public void setAddition(String addition) {
+		this.addition = addition;
+	}
 
-    public User getUserId() {
-        return userId;
-    }
+	public String getZipcode() {
+		return zipcode;
+	}
 
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
 
-    @XmlTransient
-    public Collection<Activity> getActivityCollection() {
-        return activityCollection;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public void setActivityCollection(Collection<Activity> activityCollection) {
-        this.activityCollection = activityCollection;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public Date getDateCreated() {
+		return dateCreated;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Address)) {
-            return false;
-        }
-        Address other = (Address) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
 
-    @Override
-    public String toString() {
-        return "beans.entity.Address[ id=" + id + " ]";
-    }
-    
+	public Date getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(Date dateModified) {
+		this.dateModified = dateModified;
+	}
+
+	public User getUserId() {
+		return userId;
+	}
+
+	public void setUserId(User userId) {
+		this.userId = userId;
+	}
+
+	@XmlTransient
+	public Collection<Activity> getActivityCollection() {
+		return activityCollection;
+	}
+
+	public void setActivityCollection(Collection<Activity> activityCollection) {
+		this.activityCollection = activityCollection;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Address)) {
+			return false;
+		}
+		Address other = (Address) object;
+		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "beans.entity.Address[ id=" + id + " ]";
+	}
+
 }

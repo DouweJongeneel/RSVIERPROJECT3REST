@@ -8,15 +8,13 @@ package beans.entity;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,9 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PaymentMethod.findAll", query = "SELECT p FROM PaymentMethod p"),
-    @NamedQuery(name = "PaymentMethod.findById", query = "SELECT p FROM PaymentMethod p WHERE p.id.id = :id"),
-    @NamedQuery(name = "PaymentMethod.findByPaymentMehtod", query = "SELECT p FROM PaymentMethod p WHERE p.paymentMehtod = :paymentMehtod"),
-    @NamedQuery(name = "PaymentMethod.findByPaymentId", query = "SELECT p FROM PaymentMethod p WHERE p.id.paymentId = :paymentId")})
+    @NamedQuery(name = "PaymentMethod.findByPaymentMethod", query = "SELECT p FROM PaymentMethod p WHERE p.paymentMethod = :paymentMethod"),
+})
 public class PaymentMethod implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,10 +43,10 @@ public class PaymentMethod implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "paymentMehtod")
-    private String paymentMehtod;
-    @JoinColumn(name = "payment_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @Column(name = "paymentMethod")
+    private String paymentMethod;
+    
+    @OneToOne
     private Payment payment;
 
     public PaymentMethod() {
@@ -59,9 +56,9 @@ public class PaymentMethod implements Serializable {
         this.id = id;
     }
 
-    public PaymentMethod(Long id, String paymentMehtod) {
+    public PaymentMethod(Long id, String paymentMethod) {
         this.id = id;
-        this.paymentMehtod = paymentMehtod;
+        this.paymentMethod = paymentMethod;
     }
 
     public Long getId() {
@@ -72,12 +69,12 @@ public class PaymentMethod implements Serializable {
         this.id = id;
     }
 
-    public String getPaymentMehtod() {
-        return paymentMehtod;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPaymentMehtod(String paymentMehtod) {
-        this.paymentMehtod = paymentMehtod;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public Payment getPayment() {
