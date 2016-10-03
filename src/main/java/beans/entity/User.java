@@ -8,6 +8,7 @@ package beans.entity;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -44,8 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role"),
-    @NamedQuery(name = "User.findByDateCreated", query = "SELECT u FROM User u WHERE u.dateCreated = :dateCreated"),
-    @NamedQuery(name = "User.findByDateModified", query = "SELECT u FROM User u WHERE u.dateModified = :dateModified")})
+    @NamedQuery(name = "User.findByDateCreated", query = "SELECT u FROM User u WHERE u.dateCreated = :dateCreated")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -82,6 +82,14 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
     
+    @Size(min = 1, max = 255)
+    @Column
+    private String name;
+    
+    @Size(min = 1, max = 255)
+    @Column
+    private String website;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -98,50 +106,45 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "dateCreated")
     @Temporal(TemporalType.TIMESTAMP)
-    private String dateCreated;
+    private Date dateCreated;
     
     @Column(name = "dateModified")
     @Temporal(TemporalType.TIMESTAMP)
-    private String dateModified;
+    private Date dateModified;
     
     @ManyToMany(mappedBy = "userCollection")
     private Collection<Activity> activityCollection;
     
     @OneToMany(mappedBy = "userId")
-    private Collection<ActivityHasOrganiser> activityHasOrganiserCollection;
-    
-    @OneToMany(mappedBy = "userId")
     private Collection<Address> addressCollection;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<Payment> paymentCollection;
+    private Collection<Invoice> invoiceCollection;
 
     public User() {
-        this.dateCreated = new Date(System.currentTimeMillis()).toString();
     }
 
     public User(Long id) {
         this.id = id;
-        this.dateCreated = new Date(System.currentTimeMillis()).toString();
     }
     
-    public User(String firstname, String lastname, String insertion, String email, String password, String role) {
+    public User(String firstname, String lastname, String insertion, String email, String password, String role, Date dateCreated) {
         this.firstname = firstname;
         this.insertion = insertion;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.dateCreated = new Date(System.currentTimeMillis()).toString();
+        this.dateCreated = dateCreated;
     }
 
-    public User(String firstname, String lastname, String email, String password, String role) {
+    public User(String firstname, String lastname, String email, String password, String role, Date dateCreated) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.dateCreated = new Date(System.currentTimeMillis()).toString();
+        this.dateCreated = dateCreated;
     }
 
     public Long getId() {
@@ -208,19 +211,19 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public String getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(String dateCreated) {
+    public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public String getDateModified() {
+    public Date getDateModified() {
         return dateModified;
     }
 
-    public void setDateModified(String dateModified) {
+    public void setDateModified(Date dateModified) {
         this.dateModified = dateModified;
     }
 
@@ -234,15 +237,6 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ActivityHasOrganiser> getActivityHasOrganiserCollection() {
-        return activityHasOrganiserCollection;
-    }
-
-    public void setActivityHasOrganiserCollection(Collection<ActivityHasOrganiser> activityHasOrganiserCollection) {
-        this.activityHasOrganiserCollection = activityHasOrganiserCollection;
-    }
-
-    @XmlTransient
     public Collection<Address> getAddressCollection() {
         return addressCollection;
     }
@@ -251,16 +245,15 @@ public class User implements Serializable {
         this.addressCollection = addressCollection;
     }
 
-    @XmlTransient
-    public Collection<Payment> getPaymentCollection() {
-        return paymentCollection;
-    }
+    public Collection<Invoice> getInvoiceCollection() {
+		return invoiceCollection;
+	}
 
-    public void setPaymentCollection(Collection<Payment> paymentCollection) {
-        this.paymentCollection = paymentCollection;
-    }
+	public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
+		this.invoiceCollection = invoiceCollection;
+	}
 
-    @Override
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);

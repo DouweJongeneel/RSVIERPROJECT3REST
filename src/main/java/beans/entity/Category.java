@@ -1,22 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beans.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -50,8 +44,8 @@ public class Category implements Serializable {
     @Column(name = "name")
     private String name;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
-    private Collection<Company> companyCollection;
+    @ManyToMany
+    private Collection<Activity> activityCollection;
 
     public Category() {
     }
@@ -81,12 +75,12 @@ public class Category implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Company> getCompanyCollection() {
-        return companyCollection;
+    public Collection<Activity> getCompanyCollection() {
+        return activityCollection;
     }
 
-    public void setCompanyCollection(Collection<Company> companyCollection) {
-        this.companyCollection = companyCollection;
+    public void setActivityCollection(Collection<Activity> activityCollection) {
+        this.activityCollection = activityCollection;
     }
 
     @Override

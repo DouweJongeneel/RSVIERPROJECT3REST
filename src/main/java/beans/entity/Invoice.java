@@ -6,7 +6,8 @@
 package beans.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,9 +15,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,7 +53,7 @@ public class Invoice implements Serializable {
     @NotNull
     @Column(name = "invoiceDate")
     @Temporal(TemporalType.TIMESTAMP)
-    private String invoiceDate;
+    private Date invoiceDate;
     
     @Basic(optional = false)
     @NotNull
@@ -59,8 +61,11 @@ public class Invoice implements Serializable {
     @Column(name = "invoiceNumber")
     private String invoiceNumber;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice")
-    private Collection<Payment> paymentCollection;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "invoice")
+    private Payment payment;
+    
+    @ManyToOne
+    private User user;
 
     public Invoice() {
     }
@@ -69,13 +74,23 @@ public class Invoice implements Serializable {
         this.id = id;
     }
 
-    public Invoice(Long id, String invoiceDate, String invoiceNumber) {
+    public Invoice(Long id, Date invoiceDate, String invoiceNumber) {
         this.id = id;
         this.invoiceDate = invoiceDate;
         this.invoiceNumber = invoiceNumber;
     }
 
-    public Long getId() {
+    
+    
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -83,11 +98,11 @@ public class Invoice implements Serializable {
         this.id = id;
     }
 
-    public String getInvoiceDate() {
+    public Date getInvoiceDate() {
         return invoiceDate;
     }
 
-    public void setInvoiceDate(String invoiceDate) {
+    public void setInvoiceDate(Date invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
 
@@ -100,12 +115,12 @@ public class Invoice implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Payment> getPaymentCollection() {
-        return paymentCollection;
+    public Payment getPayment() {
+        return payment;
     }
 
-    public void setPaymentCollection(Collection<Payment> paymentCollection) {
-        this.paymentCollection = paymentCollection;
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     @Override

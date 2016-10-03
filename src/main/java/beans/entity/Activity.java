@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beans.entity;
 
 import java.io.Serializable;
@@ -11,7 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -26,7 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,175 +31,234 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "activity")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Activity.findAll", query = "SELECT a FROM Activity a"),
-    @NamedQuery(name = "Activity.findById", query = "SELECT a FROM Activity a WHERE a.id.id = :id"),
-    @NamedQuery(name = "Activity.findByName", query = "SELECT a FROM Activity a WHERE a.name = :name"),
-    @NamedQuery(name = "Activity.findByDescription", query = "SELECT a FROM Activity a WHERE a.description = :description"),
-    @NamedQuery(name = "Activity.findByPrice", query = "SELECT a FROM Activity a WHERE a.price = :price"),
-    @NamedQuery(name = "Activity.findByDateCreated", query = "SELECT a FROM Activity a WHERE a.dateCreated = :dateCreated"),
-    @NamedQuery(name = "Activity.findByDateModified", query = "SELECT a FROM Activity a WHERE a.dateModified = :dateModified"),
-    @NamedQuery(name = "Activity.findByAddressId", query = "SELECT a FROM Activity a WHERE a.id.addressId = :addressId"),
-    @NamedQuery(name = "Activity.findByOrganiserId", query = "SELECT a FROM Activity a WHERE a.id.organiserId = :organiserId")})
+	@NamedQuery(name = "Activity.findAll", query = "SELECT a FROM Activity a"),
+	@NamedQuery(name = "Activity.findByName", query = "SELECT a FROM Activity a WHERE a.name = :name"),
+	@NamedQuery(name = "Activity.findByDescription", query = "SELECT a FROM Activity a WHERE a.description = :description"),
+	@NamedQuery(name = "Activity.findByPrice", query = "SELECT a FROM Activity a WHERE a.price = :price"),
+	@NamedQuery(name = "Activity.findByDateCreated", query = "SELECT a FROM Activity a WHERE a.dateCreated = :dateCreated"),
+	@NamedQuery(name = "Activity.findByDateModified", query = "SELECT a FROM Activity a WHERE a.dateModified = :dateModified")})
 public class Activity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id")
-    private Long id;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "name")
-    private String name;
-    
-    @Size(max = 255)
-    @Column(name = "description")
-    private String description;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "price")
-    private BigDecimal price;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "dateCreated")
-    @Temporal(TemporalType.TIMESTAMP)
-    private String dateCreated;
-    
-    @Column(name = "dateModified")
-    @Temporal(TemporalType.TIMESTAMP)
-    private String dateModified;
-    
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id")
+	private Long id;
+
+	@Basic(optional = false)
+	@NotNull
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "description")
+	private String description;
+	
+	@Basic(optional = false)
+	@NotNull
+	@Column(name = "price")
+	private BigDecimal price;
+
+	@Column
+	private Date startDate;
+	
+	@Column
+	private Date endDate;
+	
+	@Column
+	private String startTime;
+	
+	@Column
+	private String endTime;
+	
+	@Column
+	private String website;
+	
+	@ManyToMany
+	private Collection<Category> categoryCollection;
+
+	@JoinColumn(name = "address_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@ManyToOne(optional = false)
+	private Address address;
+
+	@JoinColumn(name = "organiser_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@ManyToOne(optional = false)
+	private User organiser;
+
     @JoinTable(name = "activity_has_participant", joinColumns = {
-        @JoinColumn(name = "activity_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @ManyToMany
-    private Collection<User> userCollection;
-    
-    @JoinColumn(name = "address_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Address address;
-    
-    @JoinColumn(name = "organiser_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private ActivityHasOrganiser activityHasOrganiser;
+            @JoinColumn(name = "activity_id", referencedColumnName = "id")}, inverseJoinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id")})
+        @ManyToMany
+        private Collection<User> userCollection;
+	
+	@Basic(optional = false)
+	@NotNull
+	@Column(name = "dateCreated")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateCreated;
 
-    public Activity() {
-    }
+	@Column(name = "dateModified")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateModified;
+	
+	public Activity() {
+	}
 
-    public Activity(Long id) {
-        this.id = id;
-    }
+	public Activity(Long id) {
+		this.id = id;
+	}
 
-    public Activity(Long id, String name, BigDecimal price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.dateCreated = new Date(System.currentTimeMillis()).toString();
-    }
+	public Activity(Long id, String name, BigDecimal price) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.dateCreated = new Date(System.currentTimeMillis());
+	}
 
-    
+	public Date getStartDate() {
+		return startDate;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Date getEndDate() {
+		return endDate;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getStartTime() {
+		return startTime;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getEndTime() {
+		return endTime;
+	}
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+	public String getWebsite() {
+		return website;
+	}
 
-    public String getDateCreated() {
-        return dateCreated;
-    }
+	public void setWebsite(String website) {
+		this.website = website;
+	}
 
-    public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+	public Collection<Category> getCategoryCollection() {
+		return categoryCollection;
+	}
 
-    public String getDateModified() {
-        return dateModified;
-    }
+	public void setCategoryCollection(Collection<Category> categoryCollection) {
+		this.categoryCollection = categoryCollection;
+	}
 
-    public void setDateModified(String dateModified) {
-        this.dateModified = dateModified;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    @XmlTransient
-    public Collection<User> getUserCollection() {
-        return userCollection;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Address getAddress() {
-        return address;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public ActivityHasOrganiser getActivityHasOrganiser() {
-        return activityHasOrganiser;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setActivityHasOrganiser(ActivityHasOrganiser activityHasOrganiser) {
-        this.activityHasOrganiser = activityHasOrganiser;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Activity)) {
-            return false;
-        }
-        Activity other = (Activity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	public Date getDateCreated() {
+		return dateCreated;
+	}
 
-    @Override
-    public String toString() {
-        return "beans.entity.Activity[ id=" + id + " ]";
-    }
-    
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(Date dateModified) {
+		this.dateModified = dateModified;
+	}
+
+	@XmlTransient
+	public Collection<User> getUserCollection() {
+		return userCollection;
+	}
+
+	public void setUserCollection(Collection<User> userCollection) {
+		this.userCollection = userCollection;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public User getOrganiser() {
+		return organiser;
+	}
+
+	public void setOrganiser(User organiser) {
+		this.organiser = organiser;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		// TODO: Warning - this method won't work in the case the id fields are not set
+		if (!(object instanceof Activity)) {
+			return false;
+		}
+		Activity other = (Activity) object;
+		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "beans.entity.Activity[ id=" + id + " ]";
+	}
+
 }
