@@ -122,29 +122,31 @@ public class User implements Serializable {
     private Collection<Invoice> invoiceCollection;
 
     public User() {
+        this.dateCreated = new Date(System.currentTimeMillis());
     }
 
     public User(Long id) {
         this.id = id;
+        this.dateCreated = new Date(System.currentTimeMillis());
     }
     
-    public User(String firstname, String lastname, String insertion, String email, String password, String role, Date dateCreated) {
+    public User(String firstname, String lastname, String insertion, String email, String password, String role) {
         this.firstname = firstname;
         this.insertion = insertion;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.dateCreated = dateCreated;
+        this.dateCreated = new Date(System.currentTimeMillis());
     }
 
-    public User(String firstname, String lastname, String email, String password, String role, Date dateCreated) {
+    public User(String firstname, String lastname, String email, String password, String role) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.dateCreated = dateCreated;
+        this.dateCreated = new Date(System.currentTimeMillis());
     }
 
     public Long getId() {

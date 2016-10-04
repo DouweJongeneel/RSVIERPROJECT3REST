@@ -36,30 +36,32 @@ public class UserResource {
     }
 
     @POST
-    @Path("/register/{user}")
-    @Consumes("application/x-www-form-urlencoded")
+    @Path("/register")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public void registerUser(@FormParam("firstname") String firstname,
                              @FormParam("insertion") String insertion,
                              @FormParam("lastname") String lastname,
                              @FormParam("phone") Integer phone,
                              @FormParam("email") String email,
-                             @FormParam("password") String password) {
+                             @FormParam("password") String password,
+                             @DefaultValue("USER") @FormParam("role") String role) {
 
         // create a new user and save form data
-        User newUser = new User();
-        newUser.setFirstname(firstname);
+        User user = new User();
+        user.setFirstname(firstname);
         if (insertion != null) {
-            newUser.setInsertion(insertion);
+            user.setInsertion(insertion);
         }
-        newUser.setLastname(lastname);
+        user.setLastname(lastname);
         if (phone != null) {
-            newUser.setPhone(phone);
+            user.setPhone(phone);
         }
-        newUser.setEmail(email);
-        newUser.setPassword(password);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setRole(role);
 
         // Register the new user with the persistence context and database
-        userFacade.create(newUser);
+        userFacade.create(user);
 
     }
 

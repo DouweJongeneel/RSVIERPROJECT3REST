@@ -23,27 +23,28 @@
     <jsp:body>
         <h1>Register User:</h1>
         <div>
-        <form method="post">
+            <form method="post" action="http://localhost:8080/workshop3.rest/resources/users/register">
 
-        <label>Voornaam: </label>
-        <input type="text" name="firstname"/>
-        <br/>
-        <label>Tussenvoegsel: </label>
-        <input type="text" name="insertion"/>
-        <br/>
-        <label>Achternaam: </label>
-        <input type="text" name="lastname"/>
-        <br/>
-        <label>telefoon: </label>
-        <input type="text" name="phone"/>
-        <br/>
-        <label>email: </label>
-        <input type="text" name="email"/>
-        <br/>
-        <label>wachtwoord: </label>
-        <input type="text" name="password"/>
-        </form>
-        <input type="submit" value="Submit"/>
+                <label>Voornaam: </label>
+                <input type="text" name="firstname"/>
+                <br/>
+                <label>Tussenvoegsel: </label>
+                <input type="text" name="insertion"/>
+                <br/>
+                <label>Achternaam: </label>
+                <input type="text" name="lastname"/>
+                <br/>
+                <label>telefoon: </label>
+                <input type="text" name="phone"/>
+                <br/>
+                <label>email: </label>
+                <input type="text" name="email"/>
+                <br/>
+                <label>wachtwoord: </label>
+                <input type="text" name="password"/>
+                <input type="submit" value="Submit"/>
+            </form>
+
         </div>
     </jsp:body>
 </t:genericpage>
