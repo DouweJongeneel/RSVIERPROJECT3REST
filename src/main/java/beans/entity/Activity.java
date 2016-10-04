@@ -11,14 +11,15 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -53,27 +54,28 @@ public class Activity implements Serializable {
 
 	@Column(name = "description")
 	private String description;
-	
+
 	@Basic(optional = false)
 	@NotNull
-	@Column(name = "price")
+	@DecimalMin(value = "2")
+	@Column(name = "price", columnDefinition="Decimal(10,2)")
 	private BigDecimal price;
 
 	@Column
 	private Date startDate;
-	
+
 	@Column
 	private Date endDate;
-	
+
 	@Column
 	private String startTime;
-	
+
 	@Column
 	private String endTime;
-	
+
 	@Column
 	private String website;
-	
+
 	@ManyToMany
 	private Collection<Category> categoryCollection;
 
@@ -85,14 +87,13 @@ public class Activity implements Serializable {
 	@ManyToOne(optional = false)
 	private User organiser;
 
-    @JoinTable(name = "activity_has_participant", joinColumns = {
-            @JoinColumn(name = "activity_id", referencedColumnName = "id")}, inverseJoinColumns = {
-            @JoinColumn(name = "user_id", referencedColumnName = "id")})
-        @ManyToMany
-        private Collection<User> userCollection;
-	
+	@OneToMany
+	private Collection<Invoice> invoiceCollection;
+
+	@OneToMany
+	private Collection<User> userCollection;
+
 	@Basic(optional = false)
-	@NotNull
 	@Column(name = "dateCreated")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreated;
@@ -100,7 +101,7 @@ public class Activity implements Serializable {
 	@Column(name = "dateModified")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateModified;
-	
+
 	public Activity() {
 	}
 
@@ -113,6 +114,16 @@ public class Activity implements Serializable {
 		this.name = name;
 		this.price = price;
 		this.dateCreated = new Date(System.currentTimeMillis());
+	}
+
+
+
+	public Collection<Invoice> getInvoiceCollection() {
+		return invoiceCollection;
+	}
+
+	public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
+		this.invoiceCollection = invoiceCollection;
 	}
 
 	public Date getStartDate() {

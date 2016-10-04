@@ -36,90 +36,78 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "user")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByFirstname", query = "SELECT u FROM User u WHERE u.firstname = :firstname"),
-    @NamedQuery(name = "User.findByInsertion", query = "SELECT u FROM User u WHERE u.insertion = :insertion"),
-    @NamedQuery(name = "User.findByLastname", query = "SELECT u FROM User u WHERE u.lastname = :lastname"),
-    @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role"),
-    @NamedQuery(name = "User.findByDateCreated", query = "SELECT u FROM User u WHERE u.dateCreated = :dateCreated")})
+	@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+	@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+	@NamedQuery(name = "User.findByFirstname", query = "SELECT u FROM User u WHERE u.firstname = :firstname"),
+	@NamedQuery(name = "User.findByInsertion", query = "SELECT u FROM User u WHERE u.insertion = :insertion"),
+	@NamedQuery(name = "User.findByLastname", query = "SELECT u FROM User u WHERE u.lastname = :lastname"),
+	@NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone"),
+	@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
+})
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Long id;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "firstname")
-    private String firstname;
-    
-    @Size(max = 45)
-    @Column(name = "insertion")
-    private String insertion;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "lastname")
-    private String lastname;
-    
-    @Column(name = "phone")
-    private Integer phone;
-    
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "email")
-    private String email;
-    
-    @Size(min = 1, max = 255)
-    @Column
-    private String name;
-    
-    @Size(min = 1, max = 255)
-    @Column
-    private String website;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "password")
-    private String password;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "role")
-    private String role;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "dateCreated")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
-    
-    @Column(name = "dateModified")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateModified;
-    
-    @ManyToMany(mappedBy = "userCollection")
-    private Collection<Activity> activityCollection;
-    
-    @OneToMany(mappedBy = "userId")
-    private Collection<Address> addressCollection;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<Invoice> invoiceCollection;
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
+
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "firstname")
+	private String firstname;
+
+	@Size(max = 45)
+	@Column(name = "insertion")
+	private String insertion;
+
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "lastname")
+	private String lastname;
+
+	@Column(name = "phone")
+	private Integer phone;
+
+	@NotNull
+	@Size(min = 6, max = 255)
+	@Column(name = "email")
+	private String email;
+
+	@Column
+	private String name;
+
+	@Column
+	private String website;
+
+	@NotNull
+	@Size(min = 1, max = 45)
+	@Column(name = "password")
+	private String password;
+
+	@NotNull
+	@Size(min = 1, max = 45)
+	@Column(name = "role")
+	private String role;
+
+	@NotNull
+	@Column(name = "dateCreated")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateCreated;
+
+	@Column(name = "dateModified")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateModified;
+
+	@OneToMany
+	private Collection<Activity> activityCollection;
+
+	@OneToMany(mappedBy = "userId")
+	private Collection<Address> addressCollection;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private Collection<Invoice> invoiceCollection;
 
     public User() {
         this.dateCreated = new Date(System.currentTimeMillis());
@@ -129,7 +117,7 @@ public class User implements Serializable {
         this.id = id;
         this.dateCreated = new Date(System.currentTimeMillis());
     }
-    
+
     public User(String firstname, String lastname, String insertion, String email, String password, String role) {
         this.firstname = firstname;
         this.insertion = insertion;
