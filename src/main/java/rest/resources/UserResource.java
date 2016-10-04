@@ -29,6 +29,7 @@ public class UserResource {
     @Path("/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUserById(@PathParam("userId") Long id) {
+    	System.out.println(1);
         User user = new User("Douwe", "Jongeneel", "douwe@jongeneel.com", "1234", "ADMIN");
         return user;
     }

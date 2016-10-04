@@ -65,6 +65,9 @@ public class Invoice implements Serializable {
     private Payment payment;
     
     @ManyToOne
+    private Activity activity;
+    
+    @ManyToOne
     private User user;
 
     public Invoice() {
@@ -79,10 +82,16 @@ public class Invoice implements Serializable {
         this.invoiceDate = invoiceDate;
         this.invoiceNumber = invoiceNumber;
     }
+    
+    public Activity getActivity() {
+		return activity;
+	}
 
-    
-    
-    public User getUser() {
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+	}
+
+	public User getUser() {
 		return user;
 	}
 
