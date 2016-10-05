@@ -16,7 +16,7 @@
 			$.ajax({
 				url : ctxPath+"/resources/activity/postActivity",
 				type : "POST",
-				data : '{"name":"Beach volleyball", "price":"31.50"}',
+				data : '{"categoryCollection" : [{"name":"Sports"}, {"name":"Outdoor"}], "name":"Beach volleyball", "price":"31.50"}',
 				contentType : "application/json",
 				cache : false,
 				dataType : "json"
@@ -30,8 +30,9 @@
 <body>
 	<h1>Test</h1>
 	<ul>
-		<li><a
-			href="<%=request.getContextPath() %>/resources/activity/getAll"><%=request.getContextPath() %>/resources/activity/getAll</a></li>
+		<li><a href="<%=request.getContextPath() %>/resources/activity/search/Activity.findByName/name/Beach Volleyball">/resources/search/name/</a></li>
+		<li><a href="<%=request.getContextPath() %>/resources/activity/search/price/31.50">/resources/search/price/</a></li>
+		<li><a href="<%=request.getContextPath() %>/resources/activity/search/Activity.findByCategory/name/Sports">/resources/search/category/</a></li>
 		<li><button id="postActivity">Post Activity</button></li>
 	</ul>
 

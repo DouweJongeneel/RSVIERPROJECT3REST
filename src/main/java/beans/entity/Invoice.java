@@ -35,8 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "invoice")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i"),
-    @NamedQuery(name = "Invoice.findById", query = "SELECT i FROM Invoice i WHERE i.id = :id"),
     @NamedQuery(name = "Invoice.findByInvoiceDate", query = "SELECT i FROM Invoice i WHERE i.invoiceDate = :invoiceDate"),
     @NamedQuery(name = "Invoice.findByInvoiceNumber", query = "SELECT i FROM Invoice i WHERE i.invoiceNumber = :invoiceNumber")})
 public class Invoice implements Serializable {

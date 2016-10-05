@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "activity")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Activity.findAll", query = "SELECT a FROM Activity a"),
+	@NamedQuery(name = "Activity.findByCategory", query = "SELECT a FROM Activity a left join fetch a.categoryCollection c WHERE c.name = :name"),
 	@NamedQuery(name = "Activity.findByName", query = "SELECT a FROM Activity a WHERE a.name = :name"),
 	@NamedQuery(name = "Activity.findByDescription", query = "SELECT a FROM Activity a WHERE a.description = :description"),
 	@NamedQuery(name = "Activity.findByPrice", query = "SELECT a FROM Activity a WHERE a.price = :price"),
@@ -76,7 +77,7 @@ public class Activity implements Serializable {
 	@Column
 	private String website;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<Category> categoryCollection;
 
 	@JoinColumn(name = "address_id", referencedColumnName = "id", insertable = false, updatable = false)
