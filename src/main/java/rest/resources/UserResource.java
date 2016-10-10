@@ -23,7 +23,7 @@ public class UserResource {
     private UserFacade userFacade;
 
     @GET
-//    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllUsers(){
         return userFacade.findAll();
     }

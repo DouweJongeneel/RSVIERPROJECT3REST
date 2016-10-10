@@ -68,12 +68,6 @@ public class Activity implements Serializable {
 	private Date endDate;
 
 	@Column
-	private String startTime;
-
-	@Column
-	private String endTime;
-
-	@Column
 	private String website;
 
 	@ManyToMany
@@ -140,22 +134,6 @@ public class Activity implements Serializable {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-
-	public String getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-
-	public String getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
 	}
 
 	public String getWebsite() {

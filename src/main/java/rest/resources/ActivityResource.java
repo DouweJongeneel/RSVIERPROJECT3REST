@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import beans.entity.Activity;
 import beans.session.ActivityFacade;
 
-@Path("/activity")
+@Path("/activities")
 public class ActivityResource {
 
 	@EJB

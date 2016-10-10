@@ -14,7 +14,7 @@
 	$(function() {
 		$("#postActivity").on("click", function() {
 			$.ajax({
-				url : ctxPath+"/resources/activity/postActivity",
+				url : ctxPath+"/resources/activities/postActivity",
 				type : "POST",
 				data : '{"name":"Beach volleyball", "price":"31.50"}',
 				contentType : "application/json",
@@ -31,7 +31,7 @@
 	<h1>Test</h1>
 	<ul>
 		<li><a
-			href="<%=request.getContextPath() %>/resources/activity/getAll"><%=request.getContextPath() %>/resources/activity/getAll</a></li>
+			href="<%=request.getContextPath() %>/resources/activities/getAll"><%=request.getContextPath() %>/resources/activity/getAll</a></li>
 		<li><button id="postActivity">Post Activity</button></li>
 	</ul>
 

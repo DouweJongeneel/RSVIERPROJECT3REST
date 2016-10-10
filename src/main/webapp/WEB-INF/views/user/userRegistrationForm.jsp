@@ -14,14 +14,18 @@
 <t:genericpage>
 
     <jsp:attribute name="header">
-      <h1>Welcome</h1>
+
     </jsp:attribute>
     <jsp:attribute name="footer">
-      <p id="copyright">Copyright 1927, Future Bits When There Be Bits Inc.</p>
+
     </jsp:attribute>
 
     <jsp:body>
         <h1>Register User:</h1>
+
+        <div>
+
+        </div>
         <div>
             <form method="post" action="http://localhost:8080/workshop3.rest/resources/users/register">
 
@@ -42,7 +46,9 @@
                 <br/>
                 <label>wachtwoord: </label>
                 <input type="text" name="password"/>
-                <input type="submit" value="Submit"/>
+                <br/>
+                <button id="userRegisterButton">Register</button>
+
             </form>
 
         </div>
