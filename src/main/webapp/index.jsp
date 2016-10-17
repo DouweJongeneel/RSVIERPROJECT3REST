@@ -8,33 +8,57 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Opdracht 3</title>
 
-<script src="<%=request.getContextPath() %>/js/jquery-3.1.1.min.js"></script>
-<script>
-    var ctxPath = "<%=request.getContextPath() %>";
-	$(function() {
-		$("#postActivity").on("click", function() {
-			$.ajax({
-				url : ctxPath+"/resources/activities/postActivity",
-				type : "POST",
-				data : '{"name":"Beach volleyball", "price":"31.50"}',
-				contentType : "application/json",
-				cache : false,
-				dataType : "json"
-			});
-		});
-	});
-</script>
-
 </head>
 
 <body>
-	<h1>Test</h1>
-	<ul>
-		<li><a
-			href="<%=request.getContextPath() %>/resources/activities/getAll"><%=request.getContextPath() %>/resources/activity/getAll</a></li>
-		<li><button id="postActivity">Post Activity</button></li>
-	</ul>
+	<form>
+		<input id="geocomplete" type="text" placeholder="Type in an address" size="90" />
+		<input id="find" type="button" value="find" />
+	</form>
 
+	<fieldset class="addressDetails">
+		<h3> Address Gegevens </h3>
+
+		<label>Straat</label>
+		<input name="route" type="text" value="">
+
+		<label>Huisnummer</label>
+		<input name="street_number" type="text" value="">
+
+		<label>Postcode</label>
+		<input name="postal_code" type="text" value="">
+
+		<label>Plaats</label>
+		<input name="locality" type="text" value="">
+
+		<label>Land</label>
+		<input name="country" type="text" value="">
+	</fieldset>
+
+	<div class="googleMap"></div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB84u4zTerVZY0WpOBy9sHOyjeabakljhM&libraries=places"></script>
+
+	<script src="${pageContext.request.contextPath}/js/geocomplete/jquery.geocomplete.js"></script>
+
+	<script>
+		$(function(){
+
+			$("#geocomplete").geocomplete({
+				map: ".googleMap",
+				location: "Groningen",
+				details: ".addressDetails",
+				types: ["geocode", "establishment"],
+			});
+
+
+			$("#find").click(function(){
+				$("#geocomplete").trigger("geocode");
+			});
+
+		});
+	</script>
 </body>
 
 </html>

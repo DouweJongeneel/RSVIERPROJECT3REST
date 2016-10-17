@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by douwejongeneel on 07/10/2016.
  */
 
-@WebServlet(name = "ServletController", loadOnStartup = 1, urlPatterns = {"/views", "/home", "/activities", "/activities/register", "/register/user", "/register/company"})
+@WebServlet(name = "ServletController", loadOnStartup = 1, urlPatterns = {"/login", "/home", "/activities", "/activities/register", "/register/user", "/register/company"})
 public class ServletController extends HttpServlet {
 
     @Override
@@ -19,8 +19,13 @@ public class ServletController extends HttpServlet {
 
         String userPath = request.getServletPath();
 
+
+        // Send to login
+        if (userPath.equals("/login")) {
+            userPath = "/login";
+        }
         // Send to homepage
-        if (userPath.equals("/views") || userPath.equals("/home")) {
+        else if (userPath.equals("/home")) {
             userPath = "/home";
         }
 
@@ -40,7 +45,7 @@ public class ServletController extends HttpServlet {
         }
 
         // Use RequestDispatcher to forward request internally
-        String url = "WEB-INF/views" + userPath + ".jsp";
+        String url = "/WEB-INF/views" + userPath + ".jsp";
 
         getRequestDispatcherAndForwardInternally(request, response, url);
 
@@ -56,7 +61,7 @@ public class ServletController extends HttpServlet {
         }
 
         // Use RequestDispatcher to forward request internally
-        String url = "WEB-INF/views" + userPath + ".jsp";
+        String url = "/WEB-INF/views" + userPath + ".jsp";
 
         getRequestDispatcherAndForwardInternally(request, response, url);
 

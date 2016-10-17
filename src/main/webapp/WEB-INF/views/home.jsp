@@ -15,5 +15,40 @@
 
     <jsp:body>
 
+        <form>
+            <input onload="geocompleteFunction()" id="geocomplete" type="text" placeholder="Type in an address" />
+            <input id="find" type="button" value="find" />
+        </form>
+
+        <div class="googleMap"> Google Map Hier!</div>
+
+        <script>
+            geocompleteFunction();
+        </script>
+
+
+
+
+        <script>
+            $(function(){
+
+                $("#geocomplete").geocomplete({
+                    map: ".googleMap",
+                    mapOptions: {
+                        zoom: 10
+                    },
+                    location: "Groningen",
+                    details: ".addressForm"
+                });
+
+
+                $("#find").click(function(){
+                    $("#geocomplete").trigger("geocode");
+                });
+
+            });
+        </script>
+
+
     </jsp:body>
 </t:genericpage>

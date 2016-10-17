@@ -53,6 +53,16 @@ public class User implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
+    @NotNull
+    @Size(min=1, max=255)
+    @Column(name="username")
+    private String username;
+
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "password")
+    private String password;
+
 	@NotNull
 	@Size(min = 1, max = 255)
 	@Column(name = "firstname")
@@ -67,24 +77,20 @@ public class User implements Serializable {
 	@Column(name = "lastname")
 	private String lastname;
 
+    @Size(min=10, max=14)
 	@Column(name = "phone")
-	private Integer phone;
+	private String phone;
 
 	@NotNull
 	@Size(min = 6, max = 255)
 	@Column(name = "email")
 	private String email;
 
-	@Column
-	private String name;
+	@Column(name="company")
+	private String company;
 
-	@Column
+	@Column(name="website")
 	private String website;
-
-	@NotNull
-	@Size(min = 1, max = 45)
-	@Column(name = "password")
-	private String password;
 
 	@NotNull
 	@Size(min = 1, max = 45)
@@ -103,7 +109,7 @@ public class User implements Serializable {
 	@OneToMany
 	private Collection<Activity> activityCollection;
 
-	@OneToMany(mappedBy = "userId")
+	@OneToMany(mappedBy = "userId", cascade = CascadeType.PERSIST)
 	private Collection<Address> addressCollection;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -169,11 +175,11 @@ public class User implements Serializable {
         this.lastname = lastname;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -192,6 +198,14 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getCompany() {return company;}
+
+    public void setCompany(String company) {this.company = company;}
+
+    public String getWebsite() {return website;}
+
+    public void setWebsite(String website) {this.website = website;}
 
     public String getRole() {
         return role;

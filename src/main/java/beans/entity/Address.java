@@ -64,7 +64,7 @@ public class Address implements Serializable {
 	@Basic(optional = false)
 	@NotNull
 	@Column(name = "number")
-	private int number;
+	private String number;
 
 	@Size(max = 45)
 	@Column(name = "addition")
@@ -105,15 +105,16 @@ public class Address implements Serializable {
 	public Address(Long id) {
 		this.id = id;
 	}
-	public Address(String street, int number, String zipcode, String city) {
+	public Address(String street, String number, String zipcode, String city) {
 		this.street = street;
 		this.number = number;
 		this.addition = "";
 		this.zipcode = zipcode;
 		this.city = city;
+		this.dateCreated = new Date(System.currentTimeMillis());
 	}
 
-	public Address(String street, int number, String addition, String zipcode, String city) {
+	public Address(String street, String number, String addition, String zipcode, String city) {
 		this.street = street;
 		this.number = number;
 		this.addition = addition;
@@ -138,11 +139,11 @@ public class Address implements Serializable {
 		this.street = street;
 	}
 
-	public int getNumber() {
+	public String getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 

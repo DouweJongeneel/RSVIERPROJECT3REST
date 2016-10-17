@@ -4,21 +4,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+import javax.persistence.*;
+
 import static javax.persistence.GenerationType.IDENTITY;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -61,9 +50,11 @@ public class Activity implements Serializable {
 	@Column(name = "price", columnDefinition="Decimal(10,2)")
 	private BigDecimal price;
 
+	@Temporal(TemporalType.DATE) // <-- slaat alleen de datum op geen geneuzel met tijd
 	@Column
 	private Date startDate;
 
+	@Temporal(TemporalType.DATE)
 	@Column
 	private Date endDate;
 
@@ -74,7 +65,7 @@ public class Activity implements Serializable {
 	private Collection<Category> categoryCollection;
 
 	@JoinColumn(name = "address_id", referencedColumnName = "id", insertable = false, updatable = false)
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
 	private Address address;
 
 	@JoinColumn(name = "organiser_id", referencedColumnName = "id", insertable = false, updatable = false)
@@ -97,10 +88,7 @@ public class Activity implements Serializable {
 	private Date dateModified;
 
 	public Activity() {
-	}
-
-	public Activity(Long id) {
-		this.id = id;
+		this.dateCreated = new Date(System.currentTimeMillis());
 	}
 
 	public Activity(Long id, String name, BigDecimal price) {

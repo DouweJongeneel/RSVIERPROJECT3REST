@@ -18,7 +18,10 @@
     </jsp:attribute>
 
     <jsp:body>
-        <table id="userTable" width="100%" cellspacing="0">
+
+        <script>$(initUserListTable);</script>
+
+        <table id="userTable" class="display" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>voornaam</th>
@@ -28,11 +31,9 @@
                     <th>email</th>
                 </tr>
             </thead>
-
             <tbody>
 
             </tbody>
-
             <tfoot>
                 <tr>
                     <th>voornaam</th>
@@ -43,5 +44,6 @@
                 </tr>
             </tfoot>
         </table>
+
     </jsp:body>
 </t:genericpage>

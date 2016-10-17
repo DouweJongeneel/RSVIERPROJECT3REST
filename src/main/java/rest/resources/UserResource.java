@@ -1,5 +1,6 @@
 package rest.resources;
 
+import beans.entity.Address;
 import beans.entity.User;
 import beans.session.UserFacade;
 
@@ -7,6 +8,8 @@ import javax.ws.rs.*;
 import javax.ejb.EJB;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -41,12 +44,16 @@ public class UserResource {
     public void registerUser(@FormParam("firstname") String firstname,
                              @FormParam("insertion") String insertion,
                              @FormParam("lastname") String lastname,
-                             @FormParam("phone") Integer phone,
+                             @FormParam("phone") String phone,
                              @FormParam("email") String email,
                              @FormParam("password") String password,
+                             @FormParam("route") String street,
+                             @FormParam("street_number") String streetNumber,
+                             @FormParam("postal_code") String postalCode,
+                             @FormParam("locality") String city,
                              @DefaultValue("USER") @FormParam("role") String role) {
 
-        // create a new user and save form data
+        // create a new user
         User user = new User();
         user.setFirstname(firstname);
         if (insertion != null) {
@@ -60,6 +67,12 @@ public class UserResource {
         user.setPassword(password);
         user.setRole(role);
 
+        // Create address
+        Address address = new Address(street, streetNumber, postalCode, city);
+        ArrayList<Address> addressCollection = new ArrayList<>();
+        addressCollection.add(address);
+        user.setAddressCollection(addressCollection);
+
         // Register the new user with the persistence context and database
         userFacade.create(user);
 
@@ -71,7 +84,7 @@ public class UserResource {
     public void updateUserById(@FormParam("firstname") String firstname,
                                @FormParam("insertion") String insertion,
                                @FormParam("lastname") String lastname,
-                               @FormParam("phone") Integer phone,
+                               @FormParam("phone") String phone,
                                @FormParam("email") String email,
                                @FormParam("password") String password) {
 
@@ -86,6 +99,11 @@ public class UserResource {
         }
         updateUser.setEmail(email);
         updateUser.setPassword(password);
+
+//        if (!addressCollection.contains(address)) {
+//            addressCollection.add(address);
+//            user.setAddressCollection(addressCollection);
+//        }
 
         // Update user with persistence context and database
         userFacade.edit(updateUser);

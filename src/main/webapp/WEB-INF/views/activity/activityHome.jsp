@@ -14,20 +14,28 @@
     <jsp:attribute name="footer"></jsp:attribute>
 
     <jsp:body>
-        <div class="activityHomeListShort">
-            <table id="activityTableShort">
-                <thead>
-                    <tr>
-                        <th>Activiteit</th>
-                        <th>Datum</th>
-                        <th>Plaats</th>
-                    </tr>
-                </thead>
-                <tbody>
 
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-sm-4">.col-sm-4
 
+                <table id="activityTableShort">
+                    <thead>
+                        <tr>
+                            <th>Activiteit</th>
+                            <th>Datum</th>
+                            <th>Plaats</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
+
+            </div>
+            <div class="col-sm-8">.col-sm-8
+
+            </div>
         </div>
     </jsp:body>
 </t:genericpage>

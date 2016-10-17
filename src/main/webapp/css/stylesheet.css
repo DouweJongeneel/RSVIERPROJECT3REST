@@ -1,0 +1,11 @@
+
+/*Onderstaande zorgt ervoor dat de navigatiebalk geen content van de html body's verbergt!!!!*/
+body {
+    padding-top: 60px;
+}
+@media (max-width: 979px) {
+    body {
+        padding-top: 0px;
+    }
+}
+/*Zorg ervoor dat een kolom*/
