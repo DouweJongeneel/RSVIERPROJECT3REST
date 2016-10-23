@@ -8,21 +8,7 @@ package beans.entity;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -44,14 +30,14 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "Address.findByZipcode", query = "SELECT a FROM Address a WHERE a.zipcode = :zipcode"),
 	@NamedQuery(name = "Address.findByCity", query = "SELECT a FROM Address a WHERE a.city = :city"),
 	@NamedQuery(name = "Address.findByDateCreated", query = "SELECT a FROM Address a WHERE a.dateCreated = :dateCreated"),
-	@NamedQuery(name = "Address.findByDateModified", query = "SELECT a FROM Address a WHERE a.dateModified = :dateModified")})
+	@NamedQuery(name = "Address.findByDateModified", query = "SELECT a FROM Address a WHERE a.dateModified = :dateModified"),
+	@NamedQuery(name = "Address.findByNumberAndZipcode", query = "SELECT a FROM Address a WHERE a.number = :number AND a.zipcode = :zipcode")})
 public class Address implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Basic(optional = false)
 	@Column(name = "id")
 	private Long id;
 
@@ -92,11 +78,10 @@ public class Address implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateModified;
 
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	@ManyToOne
-	private User userId;
+	@ManyToMany (mappedBy = "addressCollection")
+	private Collection<User> userCollection;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "address")
+	@OneToMany(mappedBy = "address")
 	private Collection<Activity> activityCollection;
 
 	public Address() {
@@ -187,12 +172,13 @@ public class Address implements Serializable {
 		this.dateModified = dateModified;
 	}
 
-	public User getUserId() {
-		return userId;
+	@XmlTransient
+	public Collection<User> getUserCollection() {
+		return userCollection;
 	}
 
-	public void setUserId(User userId) {
-		this.userId = userId;
+	public void setUserCollection(Collection<User> userCollection) {
+		this.userCollection = userCollection;
 	}
 
 	@XmlTransient

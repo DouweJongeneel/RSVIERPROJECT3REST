@@ -2,6 +2,7 @@ package rest.resources;
 
 import beans.entity.Address;
 import beans.entity.User;
+import beans.session.AddressFacade;
 import beans.session.UserFacade;
 
 import javax.ws.rs.*;
@@ -25,6 +26,9 @@ public class UserResource {
     @EJB
     private UserFacade userFacade;
 
+    @EJB
+    private AddressFacade addressFacade;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllUsers(){
@@ -46,6 +50,7 @@ public class UserResource {
                              @FormParam("lastname") String lastname,
                              @FormParam("phone") String phone,
                              @FormParam("email") String email,
+                             @FormParam("username") String username,
                              @FormParam("password") String password,
                              @FormParam("route") String street,
                              @FormParam("street_number") String streetNumber,
@@ -64,17 +69,33 @@ public class UserResource {
             user.setPhone(phone);
         }
         user.setEmail(email);
+        user.setUsername(username);
         user.setPassword(password);
         user.setRole(role);
 
-        // Create address
-        Address address = new Address(street, streetNumber, postalCode, city);
-        ArrayList<Address> addressCollection = new ArrayList<>();
-        addressCollection.add(address);
-        user.setAddressCollection(addressCollection);
+        user = userFacade.create(user);
 
-        // Register the new user with the persistence context and database
-        userFacade.create(user);
+        // Create address
+        List<Address> addressList = addressFacade.withNamedQuery("Address.findByNumberAndZipcode", new String[] {"number", "zipcode"}, new String[] {streetNumber, postalCode });
+        Address address = null;
+
+       // If the address does not excist, create new and persist
+        if (addressList.isEmpty()) {
+            address = new Address(street, streetNumber, postalCode, city);
+            address = addressFacade.create(address);
+            ArrayList<Address> tempAddressList = new ArrayList<>();
+            tempAddressList.add(address);
+            user.setAddressCollection(tempAddressList);
+        }
+        else { // add user to the address that already exists
+            address = addressList.get(0);
+            ArrayList<Address> tempAddressList = new ArrayList<>();
+            tempAddressList.add(address);
+            user.setAddressCollection(tempAddressList);
+        }
+
+        // Register the new user with the database and put the return object including user_id in address
+       userFacade.edit(user);
 
     }
 

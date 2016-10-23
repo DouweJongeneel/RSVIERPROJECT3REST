@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:genericpage>
 
@@ -15,40 +16,20 @@
 
     <jsp:body>
 
-        <form>
-            <input onload="geocompleteFunction()" id="geocomplete" type="text" placeholder="Type in an address" />
-            <input id="find" type="button" value="find" />
-        </form>
+       <h3>Hello ${sessionScope.get("user")}, welcome to ...</h3>
 
-        <div class="googleMap"> Google Map Hier!</div>
-
-        <script>
-            geocompleteFunction();
-        </script>
-
-
-
-
-        <script>
-            $(function(){
-
-                $("#geocomplete").geocomplete({
-                    map: ".googleMap",
-                    mapOptions: {
-                        zoom: 10
-                    },
-                    location: "Groningen",
-                    details: ".addressForm"
-                });
-
-
-                $("#find").click(function(){
-                    $("#geocomplete").trigger("geocode");
-                });
-
-            });
-        </script>
-
+        <div>
+        <dl class="dl-horizontal">
+            <c:choose>
+               <c:when test="${false}">
+                   <dt>Company</dt><dd>Houthakkers inc.</dd>
+               </c:when>
+               <c:otherwise>
+                   <dt>Username</dt><dd>Douwe</dd>
+               </c:otherwise>
+            </c:choose>
+        </dl>
+        </div>
 
     </jsp:body>
 </t:genericpage>

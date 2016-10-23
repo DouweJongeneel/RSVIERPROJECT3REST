@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <t:genericpage>
 
@@ -15,72 +16,176 @@
 
     <jsp:body>
 
-        <div id="activityRegistrationDiv">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title"> Create Event</h1>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" id="activityRegisterForm" action="${pageContext.request.contextPath}/activities">
+                    <div class="jumbotron">
+                        <c:choose>
+                            <c:when test="${sessionScope.get('user') != null}">
+                                <h1> Hey ${sessionScope.get("user").firstname}! <small>Add an image</small></h1>
+                                <p>Breathe, breath in the air <br> dont be afraid to care <br> leave but don't leave me</p>
+                            </c:when>
+                            <c:otherwise>
+                                <h1> Hey You! <small>ad an image?</small></h1>
+                                <p>     out there in the cold <br> getting lonely getting old <br> can you feel me?</p>
+                            </c:otherwise>
+                        </c:choose>
+                        <p><a class="btn btn-primary btn-lg" href="#" role="button">Add Image</a></p>
+                    </div>
 
-            <h1> Register Activity </h1>
-            <br/>
-            <form method="post" action="http://localhost:8080/workshop3.rest/resources/activities/register">
 
-                <label>Name: </label>
-                <input type="text" name="name">
-                <br/>
-                <label>Date: </label>
-                <input type="text" name="date_field">
-                <br/>
-                <label>Price: </label>
-                <input type="text" name="price">
-                <br/>
 
-                <%--<label>Description: </label>--%>
-                <%--<input type="text" name="description" maxlength="255">--%>
-                <%--<br/>--%>
-                <%--<label>Category: </label>--%>
-                <%--<input type="text" name="category" maxlength="255">--%>
-                <%--<br/>--%>
-                <%--<label>Website: </label>--%>
-                <%--<input type="text" name="website" maxlength="255">--%>
-                <%--<br/>--%>
-                <%--<label>Enrollment Deadline: </label>--%>
-                <%--<input name="text" name="enrollmentDeadline">--%>
-                <%--<br/>--%>
-                <%--<label>Enrollment Capacity: </label>--%>
-                <%--<input type="text" name="enrollmentCapacity" >--%>
+                    <div class="form-group center-block form-group-lg">
+                        <label class="control-label col-sm-2" for="name">Title: </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                    </div>
 
-                Address: <input id="geocomplete" type="text" placeholder="Voer een adres in" />
-                <button class="findAddress">find</button>
 
-                <fieldset class="addressDetails">
-                    <h3> Adres Gegevens </h3>
+                    <div class="form-group">
+                        <label for="description">Description: </label>
+                        <textarea class="form-control" rows="20" id="description" name="description" placeholder="Describe your event here"></textarea>
+                    </div>
 
-                    <label>Straat</label>
-                    <input name="route" type="text" value="">
+                    <div class="col-sm-8 center-block">
+                    <label class="control-label col-sm-2" for="websiteInputField">Website:</label>
+                    <div class="form-group col-sm-10" id="websiteInputField">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="websiteAddon">www.</span>
+                            <input type="text" class="form-control" id="website" name="website" aria-describedby="websiteAddon">
+                        </div>
+                    </div>
+                    </div>
 
-                    <label>Huisnummer</label>
-                    <input name="street_number" type="text" value="">
+                    <div class="col-sm-6">
+                        <label class="control-label col-sm-1" for="dateInputField">Date: </label>
+                        <div class="form-group col-sm-11" id="dateInputField">
+                            <div class="input-group input-daterange">
+                                <span class="input-group-addon"> From </span>
+                                <input type="text" class="form-control" id="startDate" name="startDate">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                <span class="input-group-addon"> Till </span>
+                                <input type="text" class="form-control" id="endDate" name="endDate">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                    </div>
 
-                    <label>Postcode</label>
-                    <input name="postal_code" type="text" value="">
+                    <div class="col-sm-6">
+                        <label class="control-label col-sm-4" for="timePickerField">Starts at: </label>
+                        <div class="form-group col-sm-8" id="timePickerField">
+                            <div class="input-group clockpicker">
+                                <input type="text" class="form-control" id="startTime" name="startTime">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                            </div>
+                        </div>
 
-                    <label>Plaats</label>
-                    <input name="locality" type="text" value="">
+                    </div>
 
-                    <label>Land</label>
-                    <input name="country" type="text" value="">
-                </fieldset>
-                <br/>
-                <button id="activityRegisterButton">Create Activity</button>
+                    <div class="col-sm-12">
+                        <label class="control-label col-sm-3" for="price">Ticket Price: </label>
+                        <div class="form-group col-sm-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="price" name="price">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-euro"></span></span>
+                            </div>
+                        </div>
 
-            </form>
+                        <label class="control-label col-sm-3" for="ticketsAvailable">Tickets Available: </label>
+                        <div class="form-group col-sm-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="ticketsAvailable" name="ticketsAvailable">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-duplicate"></span></span>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="map_canvas"></div>
+                    <div class="panel panel-default col-sm-12">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Location</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-8">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="geocomplete">Address: </label>
+                                        <div class="input-group col-sm-10">
+                                            <span class="input-group-btn"><button type="button" class="btn btn-default" id="findAddress">Find</button></span>
+                                            <input type="text" class="form-control" id="geocomplete" placeholder="Voer adres in" />
+                                        </div>
+                                    </div>
 
+                                </div>
+
+                                <div class="panel panel-default col-sm-12">
+                                    <div class="panel-heading">
+                                        <h6 class="panel-title">Address details</h6>
+                                    </div>
+                                    <div class="addressDetails panel-body">
+
+                                        <label class="control-label col-sm-1" for="route">Straat:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="route" name="route" value="">
+                                        </div>
+
+                                        <label class="control-label col-sm-1" for="street_number">Huisnr: </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="street_number" name="street_number" value=""><br/>
+                                        </div>
+
+                                        <label class="control-label col-sm-2" for="postal_code">Postcode: </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="postal_code" name="postal_code" value="">
+                                        </div>
+
+                                        <label class="control-label col-sm-1" for="locality">Plaats: </label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="locality" name="locality" value="">
+                                        </div>
+
+                                        <label class="control-label col-sm-1" for="country">Land: </label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="country" name="country" value=""><br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="googleMap col-sm-4"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-2 center-block">
+                <button class="btn btn-default" id="registerActivityButton">Create Activity</button>
+            </div>
         </div>
 
         <script> // Script voor geocomplete google maps address autocomplete
+            $(document).ready(function() {
+                $('.input-daterange input').each(function() {
+                    $(this).datepicker({
+                        format: 'dd/mm/yyyy'
+                        });
+                });
+            })
+
+            $(document).ready(function() {
+                $('.clockpicker').clockpicker({
+                    donetext: 'Done'});
+            })
+
+
+
             $(function(){
 
                 $("#geocomplete").geocomplete({
                     details: ".addressDetails",
+                    map: ".googleMap",
+                    location: "Groningen Netherlands"
                 });
 
 
@@ -90,6 +195,13 @@
 
             });
         </script>
+        <%--BOOTSTRAP DATEPICKER--%>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+
+        <%--timepicker (clockpicker) for Bootstrap--%>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/clockpicker.css">
+        <script src="${pageContext.request.contextPath}/js/clockpicker.js"></script>
 
     </jsp:body>
 </t:genericpage>

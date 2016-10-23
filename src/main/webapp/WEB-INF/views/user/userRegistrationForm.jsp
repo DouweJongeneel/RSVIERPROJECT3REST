@@ -28,7 +28,7 @@
         </div>
         <div>
             <form class="form-horizontal" method="post" action="http://localhost:8080/workshop3.rest/resources/users/register">
-                <div class="form-group">
+                <div class="addressDetails form-group">
 
                     <label class="control-label col-sm-2" for="firstname">Voornaam: </label>
                     <div class="col-sm-10">
@@ -53,6 +53,11 @@
                     <label class="control-label col-sm-2" for="email">email: </label>
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="email" name="email"/><br/>
+                    </div>
+
+                    <label class="control-label col-sm-2" for="username"> gebruikersnaam: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="username" name="username" ><br/>
                     </div>
 
                     <label class="control-label col-sm-2" for="password">wachtwoord: </label>
@@ -100,10 +105,11 @@
         </div>
 
         <script> // Script voor geocomplete google maps address autocomplete
+
         $(function(){
 
             $("#geocomplete").geocomplete({
-                details: ".form-group",
+                details: ".addressDetails",
             });
 
 

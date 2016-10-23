@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 <t:genericpage>
 
@@ -15,27 +16,22 @@
 
     <jsp:body>
 
-        <div class="row">
-            <div class="col-sm-4">.col-sm-4
-
-                <table id="activityTableShort">
-                    <thead>
-                        <tr>
-                            <th>Activiteit</th>
-                            <th>Datum</th>
-                            <th>Plaats</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-
-
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Agenda</h2>
             </div>
-            <div class="col-sm-8">.col-sm-8
+            <div class="panel-body">
+               <div class="row agendaBody">
 
+               </div>
             </div>
         </div>
+
+        <script>
+        $(document).ready(function() {
+            findAllActivities();
+        });
+        </script>
+
     </jsp:body>
 </t:genericpage>

@@ -8,4 +8,14 @@ body {
         padding-top: 0px;
     }
 }
-/*Zorg ervoor dat een kolom*/
+/*Zorg ervoor dat een kolom gecentreerd wordt*/
+.center-block {
+    float: none;
+}
+
+/*Zorgt ervoor dat elke thumbnail in de agenda maar drie regels beschrijving toont*/
+.p-thumbnail-description {
+    line-height: 1.2em;
+    height: 7.2em;
+    overflow: hidden;
+}

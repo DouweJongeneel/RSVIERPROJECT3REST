@@ -19,8 +19,6 @@
 
     <jsp:body>
 
-        <script>$(initUserListTable);</script>
-
         <table id="userTable" class="display" width="100%" cellspacing="0">
             <thead>
                 <tr>
@@ -44,6 +42,12 @@
                 </tr>
             </tfoot>
         </table>
+
+        <script>
+            $(document).ready(function() {
+                $('#userTable').DataTable();
+            });
+        </script>
 
     </jsp:body>
 </t:genericpage>

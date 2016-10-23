@@ -1,17 +1,20 @@
 package controllers;
 
+import beans.entity.Activity;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by douwejongeneel on 07/10/2016.
  */
 
-@WebServlet(name = "ServletController", loadOnStartup = 1, urlPatterns = {"/login", "/home", "/activities", "/activities/register", "/register/user", "/register/company"})
+@WebServlet(name = "ServletController", loadOnStartup = 1, urlPatterns = {"/login", "/home", "/activities", "/activities/activity/*", "/activities/register", "/register/user", "/register/company"})
 public class ServletController extends HttpServlet {
 
     @Override
@@ -22,8 +25,9 @@ public class ServletController extends HttpServlet {
 
         // Send to login
         if (userPath.equals("/login")) {
-            userPath = "/login";
+            userPath = "/login/login";
         }
+
         // Send to homepage
         else if (userPath.equals("/home")) {
             userPath = "/home";
@@ -37,8 +41,18 @@ public class ServletController extends HttpServlet {
         // Send to activities registration page
         else if (userPath.equals("/activities/register")) {
             userPath = "/activity/registerActivity";
-
         }
+
+        // send to activity page by id
+        else if (userPath.equals("/activities/activity")) {
+            userPath = "/activity/activity";
+
+            // Get activity id from request, get rid of the / and put id in request attribute
+            String id = request.getPathInfo();
+            String[] tokens = id.split("/");
+            request.setAttribute("id", tokens[1]);
+        }
+
         // Send to user registration page
         else if (userPath.equals("/register/user")) {
             userPath = "/user/userRegistrationForm";

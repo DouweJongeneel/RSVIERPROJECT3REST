@@ -2,6 +2,7 @@ package beans.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
@@ -50,25 +51,29 @@ public class Activity implements Serializable {
 	@Column(name = "price", columnDefinition="Decimal(10,2)")
 	private BigDecimal price;
 
-	@Temporal(TemporalType.DATE) // <-- slaat alleen de datum op geen geneuzel met tijd
-	@Column
-	private Date startDate;
+	@Column(name="ticketsAvailable")
+	private Integer ticketsAvailable;
 
-	@Temporal(TemporalType.DATE)
-	@Column
-	private Date endDate;
+	@Column(name="startDate")
+	private String startDate;
 
-	@Column
+	@Column(name="endDate")
+	private String endDate;
+
+	@Column(name="startTime")
+	private String startTime;
+
+	@Column(name="website")
 	private String website;
 
 	@ManyToMany
 	private Collection<Category> categoryCollection;
 
-	@JoinColumn(name = "address_id", referencedColumnName = "id", insertable = false, updatable = false)
-	@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	@ManyToOne(optional = false, cascade = CascadeType.MERGE)
 	private Address address;
 
-	@JoinColumn(name = "organiser_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@JoinColumn(name = "organiser_id", referencedColumnName = "id")
 	@ManyToOne(optional = false)
 	private User organiser;
 
@@ -86,6 +91,19 @@ public class Activity implements Serializable {
 	@Column(name = "dateModified")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateModified;
+
+	// Om JSON data voor addres met activiteit mee te sturen
+	@Transient
+	private String route;
+
+	@Transient
+	private String street_number;
+
+	@Transient
+	private String postal_code;
+
+	@Transient
+	private String locality;
 
 	public Activity() {
 		this.dateCreated = new Date(System.currentTimeMillis());
@@ -108,20 +126,28 @@ public class Activity implements Serializable {
 		this.invoiceCollection = invoiceCollection;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
 	}
 
 	public String getWebsite() {
@@ -172,6 +198,14 @@ public class Activity implements Serializable {
 		this.price = price;
 	}
 
+	public Integer getTicketsAvailable() {
+		return ticketsAvailable;
+	}
+
+	public void setTicketsAvailable(Integer ticketsAvailable) {
+		this.ticketsAvailable = ticketsAvailable;
+	}
+
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -211,6 +245,38 @@ public class Activity implements Serializable {
 
 	public void setOrganiser(User organiser) {
 		this.organiser = organiser;
+	}
+
+	public String getRoute() {
+		return route;
+	}
+
+	public void setRoute(String route) {
+		this.route = route;
+	}
+
+	public String getStreet_number() {
+		return street_number;
+	}
+
+	public void setStreet_number(String street_number) {
+		this.street_number = street_number;
+	}
+
+	public String getPostal_code() {
+		return postal_code;
+	}
+
+	public void setPostal_code(String postal_code) {
+		this.postal_code = postal_code;
+	}
+
+	public String getLocality() {
+		return locality;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
 	}
 
 	@Override

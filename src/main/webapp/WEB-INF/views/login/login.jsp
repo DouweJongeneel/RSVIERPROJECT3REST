@@ -14,12 +14,12 @@
     <jsp:attribute name="footer"></jsp:attribute>
 
     <jsp:body>
-        <form data-toggle="validator" role="form">
+        <form data-toggle="validator" role="form" method="post" action="${pageContext.request.contextPath}/loginServlet">
             <div class="form-group has-feedback col-sm-6 col-sm-offset-3">
                 <label class="control-label" for="username">Gebruikersnaam </label>
                 <div class="input-group">
                     <span class="input-group-addon"> <span class="glyphicon glyphicon-user"></span> </span>
-                    <input type="text" pattern="^[_A-z0-9]{1,}$" maxlength="255" class="form-control" id="username"
+                    <input type="text" pattern="^[_A-z0-9]{1,}$" maxlength="255" class="form-control" id="username" name="username"
                            placeholder="gebruikersnaam" required>
                 </div>
                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -30,12 +30,12 @@
                 <div class="input-form">
                     <div class="input-group">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                        <input type="password" data-minLength="4" class="form-control" id="inputPassword" placeholder="wachtwoord" required>
+                        <input type="password" data-minLength="4" class="form-control" id="inputPassword" name="password" placeholder="wachtwoord" required>
                     </div>
                     <div class="help-block">Minimaal 4 characters</div>
                 </div>
             </div>
-            <div class="form-group col-sm-2 col-sm-offset-5">
+            <div class="form-group col-sm-1 center-block">
                 <button type="submit" class="btn btn-default">Login</button>
             </div>
         </form>

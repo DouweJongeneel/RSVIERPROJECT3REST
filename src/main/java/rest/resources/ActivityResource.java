@@ -1,11 +1,14 @@
 package rest.resources;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.entity.Activity;
@@ -34,53 +37,58 @@ public class ActivityResource {
 	private CategoryFacade categoryFacade;
 	
 	@GET
-	@Path("/getAll")
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Activity> getAllAcitivities(){
 		return activityFacade.findAll();
 	}
+
+	@GET
+	@Path("/{id}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Activity getActivityPageById(@PathParam("id") Long id) {
+		return activityFacade.find(id);
+	}
 	
 	@POST
 	@Path("/register")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public void registerActivity(@FormParam("name") String name,
-								 @FormParam("route") String street,
-								 @FormParam("street_number") String streetNumber,
-								 @FormParam("postal_code") String postalCode,
-								 @FormParam("locality") String city,
-								 @FormParam("price") String price,
-								 @FormParam("date_field") RESTDateParam startDate, // Custom date helper
-								 @FormParam("description") String description,
-								 @FormParam("category") String category,
-								 @FormParam("website") String website,
-								 @FormParam("enrollmentDeadline") String enrollmentDeadline,
-								 @FormParam("enrollmentCapacity") String enrollmentCapacity
-								 ){
+	@Consumes({MediaType.APPLICATION_JSON})
+	public void registerActivity(Activity activity, @Context HttpServletRequest request){
 
-		// User
-		User user = new User("Douwe", "Jongeneel", "d@j.nl", "1234", "ADMIN"); // <-- Todo user uit sessie halen
+		// Get the user from the session
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
 
 		// Create address
-		Address address = new Address(street, streetNumber, postalCode, city);
+		List<Address> addressList = addressFacade.withNamedQuery("Address.findByNumberAndZipcode", new String[] {"number", "zipcode"}, new String[] {activity.getStreet_number(), activity.getPostal_code()});
+
+		ArrayList<Activity> activityList = new ArrayList<>();
+		activityList.add(activity);
+
+		// If the address does not excist, create new and persist
+		if (addressList.isEmpty()) {
+			Address address = new Address(activity.getRoute(), activity.getStreet_number(), activity.getPostal_code() , activity.getLocality());
+			activity.setAddress(addressFacade.create(address));
+//			address.setActivityCollection(activityList);
+		}
+		else { // add activity to the address that already exists
+			Address tempAddress = addressList.get(0);
+			ArrayList<Activity> tempAddressActivityCollection = new ArrayList<>(tempAddress.getActivityCollection());
+			tempAddressActivityCollection.add(activity);
+			tempAddress.setActivityCollection(tempAddressActivityCollection);
+			activity.setAddress(tempAddress);
+		}
 
 		// Create Category
 		Category tempCategory = new Category("Dance"); // <-- TODO category
 
 		// Create activity
-		Activity activity = new Activity();
 		activity.setOrganiser(user);
-		activity.setName(name);
-		activity.setAddress(address);
-		activity.setPrice(new BigDecimal(price.replaceAll(",", "")));
-		activity.setStartDate(startDate.getDate());
-
-		// Register user
-		userFacade.create(user);
 
 		// Register Category
 		categoryFacade.create(tempCategory);
 
 		// Register the new activity
-		activityFacade.create(activity);
+		activity = activityFacade.create(activity);
+//		activityFacade.edit(activity);
 	}
 }
