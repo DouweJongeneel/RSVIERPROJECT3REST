@@ -52,13 +52,13 @@
                     </div>
 
                     <div class="col-sm-8 center-block">
-                    <label class="control-label col-sm-2" for="websiteInputField">Website:</label>
-                    <div class="form-group col-sm-10" id="websiteInputField">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="websiteAddon">www.</span>
-                            <input type="text" class="form-control" id="website" name="website" aria-describedby="websiteAddon">
+                        <label class="control-label col-sm-2" for="websiteInputField">Website:</label>
+                        <div class="form-group col-sm-10" id="websiteInputField">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="websiteAddon">www.</span>
+                                <input type="text" class="form-control" id="website" name="website" aria-describedby="websiteAddon">
+                            </div>
                         </div>
-                    </div>
                     </div>
 
                     <div class="col-sm-6">

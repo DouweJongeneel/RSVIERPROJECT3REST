@@ -67,7 +67,11 @@ public class ServletController extends HttpServlet {
 
         // Send to user registration page
         else if (userPath.equals("/register/user")) {
-            userPath = "/user/userRegistrationForm";
+            userPath = "/user/registerUser";
+        }
+        // Send to  company registration page
+        else if (userPath.equals("/register/company")) {
+            userPath = "/company/registerCompany";
         }
 
         // Use RequestDispatcher to forward request internally

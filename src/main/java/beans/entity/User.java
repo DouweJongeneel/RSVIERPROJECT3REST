@@ -78,6 +78,9 @@ public class User implements Serializable {
 	@Column(name="company")
 	private String company;
 
+    @Column(name="description")
+    private String description;
+
 	@Column(name="website")
 	private String website;
 
@@ -112,6 +115,19 @@ public class User implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Collection<Invoice> invoiceCollection;
+
+    // Om JSON data voor addres met activiteit mee te sturen
+    @Transient
+    private String route;
+
+    @Transient
+    private String street_number;
+
+    @Transient
+    private String postal_code;
+
+    @Transient
+    private String locality;
 
     public User() {
         this.dateCreated = new Date(System.currentTimeMillis());
@@ -261,7 +277,39 @@ public class User implements Serializable {
 		this.invoiceCollection = invoiceCollection;
 	}
 
-	@Override
+    public String getRoute() {
+        return route;
+    }
+
+    public void setRoute(String route) {
+        this.route = route;
+    }
+
+    public String getStreet_number() {
+        return street_number;
+    }
+
+    public void setStreet_number(String street_number) {
+        this.street_number = street_number;
+    }
+
+    public String getPostal_code() {
+        return postal_code;
+    }
+
+    public void setPostal_code(String postal_code) {
+        this.postal_code = postal_code;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);

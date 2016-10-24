@@ -32,7 +32,7 @@ function renderList(data) {
             +     '<img src="' + activity.image + '" alt="Event Image">'
             + '</div>'
             +    '<div class="caption">'
-            +       '<h3 align="center">' + activity.name + '</h3>'
+            +       '<h3 class="h3-thumbnail-header" align="center">' + activity.name + '</h3>'
             +       '<p class="p-thumbnail-description">' + activity.description + '</p>'
             +       '<label for="btn-group">View: &ensp;</label>'
             +       '<div class="btn-group" role="group" aria-label="...">'
@@ -192,7 +192,7 @@ $(document).ready(function () {
     });
 });
 
-// Register
+// Register User
 $(document).ready(function() {
     $('#userRegisterButton').on("click", function(){
         $.ajax({
@@ -201,6 +201,18 @@ $(document).ready(function() {
             url: ctxPath + "/resources/users/register",
             datatype: "json",
             data: JSON.stringify($('#activityRegisterForm').serializeObject())
+        });
+    });
+});
+
+//Register Company
+$(document).ready(function() {
+    $('#companyRegistrationButton').on('click',function() {
+        $.ajax({
+            method: "POST",
+            contentType: "application/json",
+            url: ctxPath + "/resources/users/register/company",
+            data: JSON.stringify($('#companyRegisterForm').serializeObject())
         });
     });
 });
@@ -224,3 +236,15 @@ $.fn.serializeObject = function(){
 };
 
 // Geocomplete
+$(document).ready(function() {
+
+    $("#geocomplete").geocomplete({
+        details: ".addressDetails",
+        map: ".googleMap"
+    });
+
+
+    $("#findAddress").click(function(){
+        $("#geocomplete").trigger("geocode");
+    });
+})

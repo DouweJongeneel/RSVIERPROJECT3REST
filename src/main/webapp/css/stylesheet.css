@@ -19,3 +19,19 @@ body {
     height: 7.2em;
     overflow: hidden;
 }
+.h3-thumbnail-header {
+    line-height: 1.2em;
+    height: 2.4em;
+    overflow: hidden;
+}
+
+/*zorgt ervoor dat Google Map getoond wordt icm bootstrap*/
+html, body {
+    height: 100%;
+}
+
+.googleMap {
+    margin: 0;
+    padding: 0;
+    height: 50%;
+}
