@@ -2,6 +2,7 @@ package rest.resources;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -54,41 +55,62 @@ public class ActivityResource {
 	@Consumes({MediaType.APPLICATION_JSON})
 	public void registerActivity(Activity activity, @Context HttpServletRequest request){
 
-		// Get the user from the session
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		// Add organiser to activity
+		activity.setOrganiser(getUserFromSession(request));
 
-		// Create address
-		List<Address> addressList = addressFacade.withNamedQuery("Address.findByNumberAndZipcode", new String[] {"number", "zipcode"}, new String[] {activity.getStreet_number(), activity.getPostal_code()});
-
-		ArrayList<Activity> activityList = new ArrayList<>();
-		activityList.add(activity);
-
-		// If the address does not excist, create new and persist
-		if (addressList.isEmpty()) {
-			Address address = new Address(activity.getRoute(), activity.getStreet_number(), activity.getPostal_code() , activity.getLocality());
-			activity.setAddress(addressFacade.create(address));
-//			address.setActivityCollection(activityList);
-		}
-		else { // add activity to the address that already exists
-			Address tempAddress = addressList.get(0);
-			ArrayList<Activity> tempAddressActivityCollection = new ArrayList<>(tempAddress.getActivityCollection());
-			tempAddressActivityCollection.add(activity);
-			tempAddress.setActivityCollection(tempAddressActivityCollection);
-			activity.setAddress(tempAddress);
-		}
+		// add address
+		putAddressInActivityAndActivityInAddressAndCheckIfAddressExistsIfNotCreateNewAddress(activity);
 
 		// Create Category
 		Category tempCategory = new Category("Dance"); // <-- TODO category
-
-		// Create activity
-		activity.setOrganiser(user);
 
 		// Register Category
 		categoryFacade.create(tempCategory);
 
 		// Register the new activity
-		activity = activityFacade.create(activity);
-//		activityFacade.edit(activity);
+		activityFacade.create(activity);
+	}
+	
+	@PUT
+	@Path("/modify")
+	@Consumes({MediaType.APPLICATION_JSON})
+	public void modifyActivity(Activity activity, @Context HttpServletRequest request) {
+
+		activity.setOrganiser(getUserFromSession(request));
+
+		putAddressInActivityAndActivityInAddressAndCheckIfAddressExistsIfNotCreateNewAddress(activity);
+
+		System.out.println("Activity ID: " + activity.getId());
+
+		// Register the new activity
+		activityFacade.edit(activity);
+	}
+	
+	public User getUserFromSession(HttpServletRequest request) {
+		// Get the user from the session
+		HttpSession session = request.getSession();
+		return (User) session.getAttribute("user");
+	}
+	
+	public void putAddressInActivityAndActivityInAddressAndCheckIfAddressExistsIfNotCreateNewAddress(Activity activity) {
+		// Create address
+		List<Address> addressList = addressFacade.withNamedQuery("Address.findByNumberAndZipcode", new String[]{"number", "zipcode"}, new String[]{activity.getStreet_number(), activity.getPostal_code()});
+		
+		// If the address does not excist, create new and persist
+		if (addressList.isEmpty()) {
+			Address address = new Address(activity.getRoute(), activity.getStreet_number(), activity.getPostal_code(), activity.getLocality());
+			HashSet<Activity> addressActivityColection = new HashSet<>();
+			addressActivityColection.add(activity);
+			address.setActivityCollection(addressActivityColection);
+			address = addressFacade.create(address);
+			activity.setAddress(address);
+			
+		} else { // add activity to the address that already exists
+			Address tempAddress = addressList.get(0);
+			HashSet<Activity> tempAddressActivityCollection = new HashSet<>(tempAddress.getActivityCollection());
+			tempAddressActivityCollection.add(activity);
+			tempAddress.setActivityCollection(tempAddressActivityCollection);
+			activity.setAddress(tempAddress);
+		}
 	}
 }

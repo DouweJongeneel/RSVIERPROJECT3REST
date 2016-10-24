@@ -13,5 +13,7 @@ public class TEST {
 
     public static void main(String[] args) {
 
+        String id = "COMPANY";
+        System.out.println(id != "COMPANY");
     }
 }

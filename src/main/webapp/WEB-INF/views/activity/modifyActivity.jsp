@@ -1,13 +1,13 @@
 <%--
   Created by IntelliJ IDEA.
   User: douwejongeneel
-  Date: 07/10/2016
-  Time: 15:42
+  Date: 24/10/2016
+  Time: 13:21
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:genericpage>
 
@@ -15,13 +15,17 @@
     <jsp:attribute name="footer"></jsp:attribute>
 
     <jsp:body>
-
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h1 class="panel-title"> Create Event</h1>
             </div>
             <div class="panel-body">
-                <form class="form-horizontal" id="activityRegisterForm" action="${pageContext.request.contextPath}/activities">
+                <form class="form-horizontal" id="activityModificationForm" action="${pageContext.request.contextPath}/activities">
+
+                    <div>
+                        <input type="hidden" id="id" name="id" value="${requestScope.get('id')}">
+                    </div>
+
                     <div class="jumbotron">
                         <c:choose>
                             <c:when test="${sessionScope.get('user') != null}">
@@ -52,13 +56,13 @@
                     </div>
 
                     <div class="col-sm-8 center-block">
-                    <label class="control-label col-sm-2" for="websiteInputField">Website:</label>
-                    <div class="form-group col-sm-10" id="websiteInputField">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="websiteAddon">www.</span>
-                            <input type="text" class="form-control" id="website" name="website" aria-describedby="websiteAddon">
+                        <label class="control-label col-sm-2" for="websiteInputField">Website:</label>
+                        <div class="form-group col-sm-10" id="websiteInputField">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="websiteAddon">www.</span>
+                                <input type="text" class="form-control" id="website" name="website" aria-describedby="websiteAddon">
+                            </div>
                         </div>
-                    </div>
                     </div>
 
                     <div class="col-sm-6">
@@ -154,46 +158,50 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="googleMap col-sm-4"></div>
+                            <div class="googleMap col-sm-4"></div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="col-sm-2 center-block">
-                <button class="btn btn-primary" id="registerActivityButton">Create Activity</button>
+                <button class="btn btn-primary" id="modifyActivityButton">Modify Activity</button>
             </div>
         </div>
 
-        <script> // Script voor geocomplete google maps address autocomplete
-            $(document).ready(function() {
-                $('.input-daterange input').each(function() {
-                    $(this).datepicker({
-                        format: 'dd/mm/yyyy'
-                        });
+        <script>
+        $(document).ready(function() {
+                initModifyActivity(${requestScope.get("id")});
+        })
+
+        // Script voor geocomplete google maps address autocomplete
+        $(document).ready(function() {
+            $('.input-daterange input').each(function() {
+                $(this).datepicker({
+                    format: 'dd/mm/yyyy'
                 });
-            })
-
-            $(document).ready(function() {
-                $('.clockpicker').clockpicker({
-                    donetext: 'Done'});
-            })
-
-
-
-            $(function(){
-
-                $("#geocomplete").geocomplete({
-                    details: ".addressDetails",
-                    map: ".googleMap",
-                    location: "Groningen Netherlands"
-                });
-
-
-                $("#findAddress").click(function(){
-                    $("#geocomplete").trigger("geocode");
-                });
-
             });
+        })
+
+        $(document).ready(function() {
+            $('.clockpicker').clockpicker({
+                donetext: 'Done'});
+        })
+
+
+
+        $(function(){
+
+            $("#geocomplete").geocomplete({
+                details: ".addressDetails",
+                map: ".googleMap"
+            });
+
+
+            $("#findAddress").click(function(){
+                $("#geocomplete").trigger("geocode");
+            });
+
+        });
         </script>
         <%--BOOTSTRAP DATEPICKER--%>
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">
@@ -202,6 +210,5 @@
         <%--timepicker (clockpicker) for Bootstrap--%>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/clockpicker.css">
         <script src="${pageContext.request.contextPath}/js/clockpicker.js"></script>
-
     </jsp:body>
 </t:genericpage>

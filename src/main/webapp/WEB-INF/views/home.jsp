@@ -18,18 +18,5 @@
 
        <h3>Hello ${sessionScope.get("user")}, welcome to ...</h3>
 
-        <div>
-        <dl class="dl-horizontal">
-            <c:choose>
-               <c:when test="${false}">
-                   <dt>Company</dt><dd>Houthakkers inc.</dd>
-               </c:when>
-               <c:otherwise>
-                   <dt>Username</dt><dd>Douwe</dd>
-               </c:otherwise>
-            </c:choose>
-        </dl>
-        </div>
-
     </jsp:body>
 </t:genericpage>

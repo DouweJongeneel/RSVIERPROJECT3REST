@@ -9,7 +9,7 @@ var currentActivity;
 
 // <-- Activity Methods -->
 
-// get all activities
+// show all activities
 function findAllActivities() {
 
     $.ajax({
@@ -46,15 +46,14 @@ function renderList(data) {
     });
 }
 
+// Show a single activity
 function initialiseActivity(id) {
-    console.log('find activity: ' + id);
 
     $.ajax({
         method: "GET",
         url: ctxPath + "/resources/activities/" + id,
         dataType: "json",
         success: function(data) {
-            console.log('find activity succesful: '+ data.organiser.role == "USER");
             currentActivity = data;
             renderActivity(currentActivity);
         }
@@ -107,6 +106,71 @@ $(document).ready(function(){
     });
 });
 
+// Modify Activity
+$(document).ready(function(){
+    $('#modifyActivityButton').click(function() {
+
+        $.ajax({
+            method: "PUT",
+            contentType: "application/json",
+            url: ctxPath + "/resources/activities/modify",
+            data: JSON.stringify($('#activityModificationForm').serializeObject())
+        });
+    });
+});
+
+function initModifyActivity(id) {
+    $.ajax({
+        method: "GET",
+        url: ctxPath + "/resources/activities/" + id,
+        dataType: "json",
+        success: function(data) {
+            currentActivity = data;
+            renderActivityForModificationPage(currentActivity);
+        }
+    })
+
+}
+
+function renderActivityForModificationPage(activity) {
+    $('#name').val(activity.name);
+    $('#description').val(activity.description);
+    $('#website').val(activity.website);
+    $('#startDate').val(activity.startDate);
+    $('#endDate').val(activity.endDate);
+    $('#startTime').val(activity.startTime);
+    $('#price').val(activity.price);
+    $('#ticketsAvailable').val(activity.ticketsAvailable);
+    $('#geocomplete').val("" + activity.address.street + " " + activity.address.number + " " + activity.address.zipcode + " " + activity.address.city);
+    $('#route').val(activity.address.street);
+    $('#street_number').val(activity.address.number);
+    $('#postal_code').val(activity.address.zipcode);
+    $('#locality').val(activity.address.city);
+}
+
+// Show activity DataTables
+$(document).ready(function() {
+
+    $('#activityTable').DataTable({
+
+        "ajax" : {
+            "url" : ctxPath + "/resources/activities",
+            "dataSrc" : ""
+        },
+        "columns" : [
+            {'data' : 'id'},
+            {'data' : 'name'},
+            {'data' : 'description'},
+            {'data' : 'startDate'},
+            {'data' : 'endDate'},
+            {'data' : 'startTime'},
+            {'data' : 'price'},
+            {'data' : 'ticketsAvailable'},
+            {'data' : 'address.id'},
+            {'data' : 'organiser.id'},
+        ]
+    });
+});
 // <-- User Methods -->
 
 // Find all users and display them in a jQuery Datatables

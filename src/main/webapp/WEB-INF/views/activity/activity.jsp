@@ -108,6 +108,14 @@
                         </div>
                     </div>
                 </div>
+
+                <c:if test="${requestScope.get('user').username == requestScope.get('activity').organiser.username}">
+                    <div class="col-sm-1 center-block">
+                        <a href="${pageContext.request.contextPath}/activities/modify/${requestScope.get('id')}" type="button" class="btn btn-primary">Edit Activity</a>
+                    </div>
+                </c:if>
+
+
             </div>
         </div>
 

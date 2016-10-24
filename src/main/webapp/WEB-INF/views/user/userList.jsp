@@ -22,11 +22,11 @@
         <table id="userTable" class="display" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>voornaam</th>
-                    <th>tussenvoegsel</th>
-                    <th>achternaam</th>
-                    <th>telefoon</th>
-                    <th>email</th>
+                    <th>Voornaam</th>
+                    <th>Tussenvoegsel</th>
+                    <th>Achternaam</th>
+                    <th>Telefoon</th>
+                    <th>Email</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,20 +34,14 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th>voornaam</th>
-                    <th>tussenvoegsel</th>
-                    <th>achternaam</th>
-                    <th>telefoon</th>
-                    <th>email</th>
+                    <th>Voornaam</th>
+                    <th>Tussenvoegsel</th>
+                    <th>Achternaam</th>
+                    <th>Telefoon</th>
+                    <th>Email</th>
                 </tr>
             </tfoot>
         </table>
-
-        <script>
-            $(document).ready(function() {
-                $('#userTable').DataTable();
-            });
-        </script>
 
     </jsp:body>
 </t:genericpage>

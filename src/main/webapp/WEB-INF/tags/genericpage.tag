@@ -76,6 +76,21 @@
                             <li><a href="#">Bedrijven</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
+                            <c:if test="${sessionScope.get('role') == 'ADMIN'}">
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <span class="glyphicon glyphicon-book"> Admin</span>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="${pageContext.request.contextPath}/users/admin">Gebruikers</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/companies/admin">Bedrijven</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/activities/admin">Activiteiten</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/orders/admin">Bestellingen</a></li>
+                                    </ul>
+                                </li>
+                            </c:if>
+
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                     <span class="glyphicon glyphicon-user"></span>

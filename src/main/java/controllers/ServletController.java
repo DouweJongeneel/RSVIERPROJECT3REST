@@ -14,7 +14,10 @@ import java.util.List;
  * Created by douwejongeneel on 07/10/2016.
  */
 
-@WebServlet(name = "ServletController", loadOnStartup = 1, urlPatterns = {"/login", "/home", "/activities", "/activities/activity/*", "/activities/register", "/register/user", "/register/company"})
+@WebServlet(name = "ServletController", loadOnStartup = 1, urlPatterns = {"/login", "/home", "/activities", "/activities/activity/*", "/activities/modify/*" ,"/activities/register", "/activities/admin",
+                                                                            "/users/admin" , "/register/user",
+                                                                            "/register/company"
+                                                                            })
 public class ServletController extends HttpServlet {
 
     @Override
@@ -46,11 +49,20 @@ public class ServletController extends HttpServlet {
         // send to activity page by id
         else if (userPath.equals("/activities/activity")) {
             userPath = "/activity/activity";
+            request = getIdFromRequestAndAddAsAttributeToRequest(request);
+        }
 
-            // Get activity id from request, get rid of the / and put id in request attribute
-            String id = request.getPathInfo();
-            String[] tokens = id.split("/");
-            request.setAttribute("id", tokens[1]);
+        else if (userPath.equals("/activities/modify")) {
+            userPath = "/activity/modifyActivity";
+            request = getIdFromRequestAndAddAsAttributeToRequest(request);
+        }
+
+        else if (userPath.equals("/activities/admin")) {
+            userPath = "/activity/activityList";
+        }
+
+        else if (userPath.equals("/users/admin")) {
+            userPath = "/user/userList";
         }
 
         // Send to user registration page
@@ -91,6 +103,14 @@ public class ServletController extends HttpServlet {
         catch (ServletException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public HttpServletRequest getIdFromRequestAndAddAsAttributeToRequest(HttpServletRequest request) {
+        // Get activity id from request, get rid of the / and put id in request attribute
+        String id = request.getPathInfo();
+        String[] tokens = id.split("/");
+        request.setAttribute("id", tokens[1]);
+        return request;
     }
 
 }
