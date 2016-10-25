@@ -16,7 +16,27 @@
 
     <jsp:body>
 
-       <h3>Hello ${sessionScope.get("user")}, welcome to ...</h3>
+        <div class="jumbotron">
+            <c:choose>
+                <c:when test="${sessionScope.get('user') != null}">
+                    <h1> ${sessionScope.get("user").username}, <small>yesterday my life was filled with rain</small></h1>
+                    <p>  ${sessionScope.get("user").firstname}, you smiled at me and really eased the pain<br>The dark days are gone, and the bright days are here! </p>
+                </c:when>
+                <c:otherwise>
+                    <h1> Welcome to the jungle <small>we got fun and games</small></h1>
+                    <p>We got everything you want honey, we know the names <br>We are the people that can find whatever you may need <br> If you got the money honey we got your disease</p>
+                </c:otherwise>
+            </c:choose>
+        </div>
+        <c:choose>
+            <c:when test="${sessionScope.get('user') != null}">
+                <h2>Welkom bij de Eventile jungle</h2>
+            </c:when>
+            <c:otherwise>
+                <h2>Eventile gewoon eventilicious</h2>
+            </c:otherwise>
+        </c:choose>
+
 
     </jsp:body>
 </t:genericpage>

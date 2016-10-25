@@ -65,13 +65,13 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <form class="form-inline">
+                        <form class="form-inline" id="ticketOrderForm">
                             <div class="form-group col-sm-8 col-sm-offset-2">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-duplicate"></span></span>
-                                    <input type="text" class="form-control" id="ticketOrder" placeholder="Number of tickets">
+                                    <input type="number" class="form-control text-center" id="ticketsOrdered" name="ticketsOrdered" placeholder="Number of tickets">
                                 </div>
-                                <button type="button" class="btn btn-primary" id="ticketPurchaseButton">Order now</button>
+                                <a href="${pageContext.request.contextPath}/orders/activity/${requestScope.get('id')}" role="button" class="btn btn-primary" id="ticketOrderButton">Order now</a>
                             </div>
                         </form>
                     </div>
@@ -109,7 +109,7 @@
                     </div>
                 </div>
 
-                <c:if test="${requestScope.get('user').username == requestScope.get('activity').organiser.username}">
+                <c:if test="${sessionScope.get('user').username == requestScope.get('activity').organiser.username}">
                     <div class="col-sm-1 center-block">
                         <a href="${pageContext.request.contextPath}/activities/modify/${requestScope.get('id')}" type="button" class="btn btn-primary">Edit Activity</a>
                     </div>

@@ -35,10 +35,15 @@ public class UserResource {
 
     @GET
     @Path("/{userId}")
-//    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public User getUserById(@PathParam("userId") Long id) {
         return userFacade.find(id);
     }
+
+    @GET
+    @Path("/companies")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<User> getAllCompanies() {return userFacade.withNamedQuery("User.findByUserRole", new String[]{"role"}, new String[] {"COMPANY"});}
 
     @POST
     @Path("/register/company")
@@ -58,59 +63,18 @@ public class UserResource {
 
     @POST
     @Path("/register")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void registerUser(@FormParam("firstname") String firstname,
-                             @FormParam("insertion") String insertion,
-                             @FormParam("lastname") String lastname,
-                             @FormParam("phone") String phone,
-                             @FormParam("email") String email,
-                             @FormParam("username") String username,
-                             @FormParam("password") String password,
-                             @FormParam("route") String street,
-                             @FormParam("street_number") String streetNumber,
-                             @FormParam("postal_code") String postalCode,
-                             @FormParam("locality") String city,
-                             @DefaultValue("USER") @FormParam("role") String role) {
+    @Consumes({MediaType.APPLICATION_JSON})
+    public void registerUser(User user) {
 
-        // create a new user
-        User user = new User();
-        user.setFirstname(firstname);
-        if (insertion != null) {
-            user.setInsertion(insertion);
-        }
-        user.setLastname(lastname);
-        if (phone != null) {
-            user.setPhone(phone);
-        }
-        user.setEmail(email);
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setRole(role);
+        user.setRole("USER");
 
         user = userFacade.create(user);
 
-        // Create address
-        List<Address> addressList = addressFacade.withNamedQuery("Address.findByNumberAndZipcode", new String[] {"number", "zipcode"}, new String[] {streetNumber, postalCode });
-        Address address = null;
+        // Check address, putt address in user and vice versa
+        putAddressInUserAndUserInAddressAndCheckIfAddressExistsIfNotCreateNewAddress(user);
 
-       // If the address does not excist, create new and persist
-        if (addressList.isEmpty()) {
-            address = new Address(street, streetNumber, postalCode, city);
-            address = addressFacade.create(address);
-            ArrayList<Address> tempAddressList = new ArrayList<>();
-            tempAddressList.add(address);
-            user.setAddressCollection(tempAddressList);
-        }
-        else { // add user to the address that already exists
-            address = addressList.get(0);
-            ArrayList<Address> tempAddressList = new ArrayList<>();
-            tempAddressList.add(address);
-            user.setAddressCollection(tempAddressList);
-        }
-
-        // Register the new user with the database and put the return object including user_id in address
-       userFacade.edit(user);
-
+        // Create user
+        userFacade.edit(user);
     }
 
     @POST
@@ -123,25 +87,7 @@ public class UserResource {
                                @FormParam("email") String email,
                                @FormParam("password") String password) {
 
-        User updateUser = new User();
-        updateUser.setFirstname(firstname);
-        if (insertion != null) {
-            updateUser.setInsertion(insertion);
-        }
-        updateUser.setLastname(lastname);
-        if (phone != null) {
-            updateUser.setPhone(phone);
-        }
-        updateUser.setEmail(email);
-        updateUser.setPassword(password);
 
-//        if (!addressCollection.contains(address)) {
-//            addressCollection.add(address);
-//            user.setAddressCollection(addressCollection);
-//        }
-
-        // Update user with persistence context and database
-        userFacade.edit(updateUser);
     }
 
     public void putAddressInUserAndUserInAddressAndCheckIfAddressExistsIfNotCreateNewAddress(User user) {

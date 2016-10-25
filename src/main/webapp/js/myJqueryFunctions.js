@@ -6,6 +6,7 @@
 var ctxPath = "http://localhost:8080/workshop3.rest";
 
 var currentActivity;
+var currentUser;
 
 // <-- Activity Methods -->
 
@@ -24,7 +25,6 @@ function renderList(data) {
     // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
     var list = data == null ? [] : (data instanceof Array ? data : [data]);
 
-    $('.agendaBody li').remove();
     $.each(list, function(index, activity) {
         $('.agendaBody').append(
             '<div class="eventThumbnail thumbnail col-sm-3">'
@@ -37,8 +37,42 @@ function renderList(data) {
             +       '<label for="btn-group">View: &ensp;</label>'
             +       '<div class="btn-group" role="group" aria-label="...">'
             +           '<a href="' + ctxPath + "/activities/activity/" + activity.id + '" role="button" class="btn btn-primary" id="activity' + activity.id +'">Activity</a>'
-            +           '<a href="' + ctxPath + "/organisers/" + activity.organiser.id + '" role="button" class="btn btn-default" id="organiser' + activity.organiser.id + '">Organiser</a>'
-            +           '<a href="' + ctxPath + "/addresses/" + activity.address.id + '" role="button" class="btn btn-primary" id="address' + activity.id + '">Address</a>'
+            +           '<a href="' + ctxPath + "/users/" + activity.organiser.role + "/"+ activity.organiser.id + '" role="button" class="btn btn-default" id="organiser' + activity.organiser.id + '">Organiser</a>'
+            +       '</div>'
+            +   '</div>'
+            + '</div>'
+        );
+    });
+}
+
+function findAllCompanies() {
+
+    $.ajax({
+        method:"GET",
+        url: ctxPath + "/resources/users/companies",
+        dataType: "json",
+        success: renderCompanyList
+    });
+}
+
+function renderCompanyList(data) {
+    // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
+    var list = data == null ? [] : (data instanceof Array ? data : [data]);
+
+    $.each(list, function(index, company) {
+        $('.companiesBody').append(
+            '<div class="eventThumbnail thumbnail col-sm-3">'
+            +  '<div class="jumbotron">'
+            +     '<img src="" alt="Company Image">'
+            + '</div>'
+            +    '<div class="caption">'
+            +       '<h3 class="h3-thumbnail-header" align="center">' + company.username + '</h3>'
+            +       '<p class="p-thumbnail-description">' + company.description + '</p>'
+            +       '<a href="' + ctxPath + "/users/COMPANY/"+ company.id + '" role="button" class="btn btn-primary center-block" id="company' + company.id + '">Show Company</a>'
+            +       '<div class="input-group">'
+            +           '<span class="input-group-addon">Website:</span>'
+            +           '<input id="companyWebsite" type="text" class="form-control text-center"value="' + company.website + '" readonly>'
+            +           '<span class="input-group-btn"><a href="#" class="btn btn-default" role="button">Go!</a></span>'
             +       '</div>'
             +   '</div>'
             + '</div>'
@@ -101,7 +135,11 @@ $(document).ready(function(){
             contentType: 'application/json',
             datatype: "json",
             url: ctxPath + "/resources/activities/register",
-            data: JSON.stringify($('#activityRegisterForm').serializeObject())
+            data: JSON.stringify($('#activityRegisterForm').serializeObject()),
+            success: function(response) {
+                window.location.href = "http://localhost:8080/workshop3.rest/activities"
+
+            }
         });
     });
 });
@@ -146,6 +184,59 @@ function renderActivityForModificationPage(activity) {
     $('#street_number').val(activity.address.number);
     $('#postal_code').val(activity.address.zipcode);
     $('#locality').val(activity.address.city);
+}
+
+function initUserPage(id) {
+    $.ajax({
+        method: "GET",
+        url: ctxPath + "/resources/users/" + id,
+        dataType: "json",
+        success: function(data) {
+            currentUser = data;
+            renderUserForPage(currentUser);
+        }
+    })
+}
+function initCompanyPage(id) {
+    $.ajax({
+        method: "GET",
+        url: ctxPath + "/resources/users/" + id,
+        dataType: "json",
+        success: function(data) {
+            currentUser = data;
+            renderCompanyForPage(currentUser);
+        }
+    })
+}
+
+function renderCompanyForPage(user) {
+    $('#companyname').val(user.username);
+    $('#firstname').val(user.firstname);
+    $('#insertion').val(user.insertion);
+    $('#lastname').val(user.lastname);
+    $('#username').val(user.username);
+    $('#phone').val(user.phone);
+    $('#email').val(user.email);
+    $('#description').val(user.description);
+    $('#website').val(user.website);
+    $('#route').val(user.address.street);
+    $('#street_number').val(user.address.number);
+    $('#postal_code').val(user.address.zipcode);
+    $('#locality').val(user.address.city);
+}
+
+function renderUserForPage(user) {
+    $('#firstname').val(user.firstname);
+    $('#insertion').val(user.insertion);
+    $('#lastname').val(user.lastname);
+    $('#username').val(user.username);
+
+    $('#phone').val(user.phone);
+    $('#email').val(user.email);
+    $('#route').val(user.address.street);
+    $('#street_number').val(user.address.number);
+    $('#postal_code').val(user.address.zipcode);
+    $('#locality').val(user.address.city);
 }
 
 // Show activity DataTables
@@ -194,13 +285,15 @@ $(document).ready(function () {
 
 // Register User
 $(document).ready(function() {
-    $('#userRegisterButton').on("click", function(){
+    $('#userRegisterButton').on('click', function(){
         $.ajax({
             method: 'POST',
             contentType: 'application/json',
             url: ctxPath + "/resources/users/register",
-            datatype: "json",
-            data: JSON.stringify($('#activityRegisterForm').serializeObject())
+            data: JSON.stringify($('#userRegistrationForm').serializeObject()),
+            success: function(response) {
+                window.location.href = "http://localhost:8080/workshop3.rest/login"
+            }
         });
     });
 });
@@ -212,10 +305,50 @@ $(document).ready(function() {
             method: "POST",
             contentType: "application/json",
             url: ctxPath + "/resources/users/register/company",
-            data: JSON.stringify($('#companyRegisterForm').serializeObject())
+            data: JSON.stringify($('#companyRegisterForm').serializeObject()),
+            success: function(response) {
+                window.location.href = "http://localhost:8080/workshop3.rest/companies"
+            }
         });
     });
 });
+
+var ticketsOrdered;
+
+// Bestelling
+$(document).ready(function(){
+    $('#ticketOrderButton').click(function() {
+        console.log($('#ticketsOrdered').val());
+
+        ticketsOrdered = $('#ticketsOrdered').val();
+    });
+});
+
+
+function initOrderTable(id) {
+    $.ajax({
+        method: "GET",
+        url: ctxPath + "/resources/activities/" + id,
+        dataType: "json",
+        success: function(data) {
+            currentActivity = data;
+            renderOrderTable(currentActivity);
+        }
+    });
+};
+
+function renderOrderTable(activity) {
+    $('#orderTableBody').append(
+         '<tr>'
+       +     '<td>' + 1 + '</td>'
+       +     '<td>' + activity.name + '</td>'
+       +     '<td>' + activity.startDate + '</td>'
+       +     '<td>' + activity.startTime + '</td>'
+       +     '<td>' + activity.price + '</td>'
+       +     '<td>' + ticketsOrdered + '</td>'
+       + '</tr>'
+    )
+}
 
 // Helper functie om form velden om te zetten in JSON
 $.fn.serializeObject = function(){

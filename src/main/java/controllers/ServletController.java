@@ -15,8 +15,9 @@ import java.util.List;
  */
 
 @WebServlet(name = "ServletController", loadOnStartup = 1, urlPatterns = {"/login", "/home", "/activities", "/activities/activity/*", "/activities/modify/*" ,"/activities/register", "/activities/admin",
-                                                                            "/users/admin" , "/register/user",
-                                                                            "/register/company"
+                                                                            "/users/admin" , "/register/user", "/users/USER/*", "/users/ADMIN/*",
+                                                                            "/companies", "/register/company", "/users/COMPANY/*",
+                                                                            "/orders/activity/*"
                                                                             })
 public class ServletController extends HttpServlet {
 
@@ -57,6 +58,11 @@ public class ServletController extends HttpServlet {
             request = getIdFromRequestAndAddAsAttributeToRequest(request);
         }
 
+        else if (userPath.equals("/users/USER") || userPath.equals("/users/ADMIN")) {
+            userPath = "/user/userPage";
+            getIdFromRequestAndAddAsAttributeToRequest(request);
+        }
+
         else if (userPath.equals("/activities/admin")) {
             userPath = "/activity/activityList";
         }
@@ -69,9 +75,24 @@ public class ServletController extends HttpServlet {
         else if (userPath.equals("/register/user")) {
             userPath = "/user/registerUser";
         }
+
+        else if(userPath.equals("/companies")) {
+            userPath = "/company/companyHome";
+        }
+
         // Send to  company registration page
         else if (userPath.equals("/register/company")) {
             userPath = "/company/registerCompany";
+        }
+        else if (userPath.equals("/users/COMPANY")) {
+            userPath = "/company/companyPage";
+            getIdFromRequestAndAddAsAttributeToRequest(request);
+        }
+
+        // Send to order page
+        else if (userPath.equals("/orders/activity")) {
+            userPath = "/order/activity";
+            request = getIdFromRequestAndAddAsAttributeToRequest(request);
         }
 
         // Use RequestDispatcher to forward request internally
@@ -113,7 +134,7 @@ public class ServletController extends HttpServlet {
         // Get activity id from request, get rid of the / and put id in request attribute
         String id = request.getPathInfo();
         String[] tokens = id.split("/");
-        request.setAttribute("id", tokens[1]);
+        request.setAttribute("id", tokens[tokens.length -1]);
         return request;
     }
 

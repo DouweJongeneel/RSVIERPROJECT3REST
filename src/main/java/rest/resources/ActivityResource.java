@@ -59,6 +59,7 @@ public class ActivityResource {
 		activity.setOrganiser(getUserFromSession(request));
 
 		// add address
+		activityFacade.create(activity);
 		putAddressInActivityAndActivityInAddressAndCheckIfAddressExistsIfNotCreateNewAddress(activity);
 
 		// Create Category
@@ -68,7 +69,7 @@ public class ActivityResource {
 		categoryFacade.create(tempCategory);
 
 		// Register the new activity
-		activityFacade.create(activity);
+		activityFacade.edit(activity);
 	}
 	
 	@PUT

@@ -41,6 +41,9 @@
         <script src="//cdnjs.com/libraries/1000hz-bootstrap-validator"></script>
         <!-- /BOOTSTRAP -->
 
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-social.css">
+
         <!-- CSS aanpassingen -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/stylesheet.css">
 
@@ -59,7 +62,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#"> WebSiteName</a>
+                        <a class="navbar-brand" href="#"> Eventile </a>
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
@@ -72,8 +75,7 @@
                                     <li><a href="${pageContext.request.contextPath}/activities/register">registreer</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">Locaties</a></li>
-                            <li><a href="#">Bedrijven</a></li>
+                            <li><a href="${pageContext.request.contextPath}/companies">Bedrijven</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <c:if test="${sessionScope.get('role') == 'ADMIN'}">
@@ -118,14 +120,61 @@
             <div id="body">
                 <jsp:doBody/>
             </div>
-            <div id="pagefooter">
-                <jsp:invoke fragment="footer"/>
-                <div class="col-sm-6 col-sm-offset-3">
-                    <p class="text-center"><span class="glyphicon glyphicon-copyright-mark"></span>
-                       Copyright 2016, AD Development</p>
-                </div>
-            </div>
         </div>
+            <footer id="pageFooter">
+
+                <jsp:invoke fragment="footer"/>
+
+                <div id="footerContainer">
+                    <div class="row">
+                        <div class="col-sm-3 sitemap">
+                            <h4>Sitemap</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Return Policy</a></li>
+                                <li><a href="#">Terms and Condition</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+
+
+                        <div class="col-sm-3 subscribe">
+                            <h4>Enquiries</h4>
+                            <p> evenementenlaan 15 <br />
+                                1424 CD De Kwakkel <br />
+                                The Netherlands</p>
+
+                            <i class="fa fa-envelope"></i> ceo@eventile.nl<br />
+                            <i class="fa fa-phone"></i> +31 0318-362547<br />
+                        </div>
+                        <div class="col-sm-3 joinus">
+                            <h4>Subscribe</h4>
+                            <div class="input-group col-sm-6 col-sm-offset-3"><input type="text" class="form-control" placeholder="Your Name" /></div>
+                            <div class="input-group col-sm-6 col-sm-offset-3"><input type="text" class="form-control email" placeholder="Your Email Address..." /></div>
+                            <div class="col-sm-12"><p> </p></div>
+                            <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Subscribe</button>
+                        </div>
+                        <div class="col-sm-3">
+                            <h4>Like and follow us</h4>
+
+                            <div class="center-block"><a class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a></div>
+                            <div class="center-block">
+                                <a class="btn btn-social-icon btn-twitter"><span class="fa fa-twitter"></span></a>
+                                <a class="btn btn-social-icon btn-youtube"><span class="fa fa-youtube"></span></a>
+                                <a class="btn btn-social-icon btn-pinterest"><span class="fa fa-pinterest"></span></a>
+                            </div>
+                            <div class="center-block"><a class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a></div>
+                        </div>
+                        </div>
+
+
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <br/>
+                            <p class="text-center"><span class="glyphicon glyphicon-copyright-mark"></span>
+                               Copyright 2016, AD Development</p>
+                        </div>
+                </div>
+            </footer>
         <!-- Load my Javascript -->
         <script src="${pageContext.request.contextPath}/js/myJqueryFunctions.js"></script>
     </body>

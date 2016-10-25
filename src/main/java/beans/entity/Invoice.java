@@ -45,7 +45,6 @@ public class Invoice implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
     
@@ -66,7 +65,10 @@ public class Invoice implements Serializable {
     
     @ManyToOne
     private Activity activity;
-    
+
+    @Column(name = "numberOfTickets")
+    private Integer numberOfTickets;
+
     @ManyToOne
     private User user;
 
@@ -91,7 +93,15 @@ public class Invoice implements Serializable {
 		this.activity = activity;
 	}
 
-	public User getUser() {
+    public Integer getNumberOfTickets() {
+        return numberOfTickets;
+    }
+
+    public void setNumberOfTickets(Integer numberOfTickets) {
+        this.numberOfTickets = numberOfTickets;
+    }
+
+    public User getUser() {
 		return user;
 	}
 
