@@ -159,9 +159,23 @@
                     </div>
                 </form>
             </div>
-            <div class="col-sm-2 center-block">
-                <button class="btn btn-primary" id="registerActivityButton">Create Activity</button>
-            </div>
+
+            <c:choose>
+                <c:when test="${sessionScope.get('user') != null}">
+                    <div class="col-sm-2 center-block">
+                        <button class="btn btn-primary" id="registerActivityButton">Create Activity</button>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="center-block">
+                        <h4>Wil je een evenement registreren, log dan eerst in:</h4>
+                    </div>
+                    <div class="col-sm-2 center-block">
+                        <a href="${pageContext.request.contextPath}/login" class="btn btn-primary" role="button" >Log in</a>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+
         </div>
 
         <script> // Script voor geocomplete google maps address autocomplete

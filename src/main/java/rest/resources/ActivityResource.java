@@ -60,6 +60,7 @@ public class ActivityResource {
 
 		// add address
 		activityFacade.create(activity);
+
 		putAddressInActivityAndActivityInAddressAndCheckIfAddressExistsIfNotCreateNewAddress(activity);
 
 		// Create Category
@@ -81,8 +82,6 @@ public class ActivityResource {
 
 		putAddressInActivityAndActivityInAddressAndCheckIfAddressExistsIfNotCreateNewAddress(activity);
 
-		System.out.println("Activity ID: " + activity.getId());
-
 		// Register the new activity
 		activityFacade.edit(activity);
 	}
@@ -100,9 +99,9 @@ public class ActivityResource {
 		// If the address does not excist, create new and persist
 		if (addressList.isEmpty()) {
 			Address address = new Address(activity.getRoute(), activity.getStreet_number(), activity.getPostal_code(), activity.getLocality());
-			HashSet<Activity> addressActivityColection = new HashSet<>();
-			addressActivityColection.add(activity);
-			address.setActivityCollection(addressActivityColection);
+			HashSet<Activity> addressActivityCollection = new HashSet<>();
+			addressActivityCollection.add(activity);
+			address.setActivityCollection(addressActivityCollection);
 			address = addressFacade.create(address);
 			activity.setAddress(address);
 			

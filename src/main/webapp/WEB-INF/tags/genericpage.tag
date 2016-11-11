@@ -66,7 +66,7 @@
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="${pageContext.request.contextPath}/home"><span class="glyphicon glyphicon-home"/> Home</a></li>
+                            <li><a href="${pageContext.request.contextPath}/home"><span class="glyphicon glyphicon-home"/> Home</a></li>
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Evenementen
                                 <span class="caret"></span></a>
@@ -86,9 +86,9 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="${pageContext.request.contextPath}/users/admin">Gebruikers</a></li>
-                                        <li><a href="${pageContext.request.contextPath}/companies/admin">Bedrijven</a></li>
+                                        <li><a href="#">Bedrijven</a></li>
                                         <li><a href="${pageContext.request.contextPath}/activities/admin">Activiteiten</a></li>
-                                        <li><a href="${pageContext.request.contextPath}/orders/admin">Bestellingen</a></li>
+                                        <li><a href="#">Bestellingen</a></li>
                                     </ul>
                                 </li>
                             </c:if>

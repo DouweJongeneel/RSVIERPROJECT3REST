@@ -133,12 +133,10 @@ $(document).ready(function(){
         $.ajax({
             method: "POST",
             contentType: 'application/json',
-            datatype: "json",
             url: ctxPath + "/resources/activities/register",
             data: JSON.stringify($('#activityRegisterForm').serializeObject()),
-            success: function(response) {
-                window.location.href = "http://localhost:8080/workshop3.rest/activities"
-
+            success: function() {
+                window.location.href = ctxPath + "/activities"
             }
         });
     });
@@ -152,7 +150,10 @@ $(document).ready(function(){
             method: "PUT",
             contentType: "application/json",
             url: ctxPath + "/resources/activities/modify",
-            data: JSON.stringify($('#activityModificationForm').serializeObject())
+            data: JSON.stringify($('#activityModificationForm').serializeObject()),
+            success: function() {
+                window.location.href = ctxPath + "/activities"
+            }
         });
     });
 });
@@ -291,7 +292,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             url: ctxPath + "/resources/users/register",
             data: JSON.stringify($('#userRegistrationForm').serializeObject()),
-            success: function(response) {
+            success: function() {
                 window.location.href = "http://localhost:8080/workshop3.rest/login"
             }
         });
@@ -306,7 +307,7 @@ $(document).ready(function() {
             contentType: "application/json",
             url: ctxPath + "/resources/users/register/company",
             data: JSON.stringify($('#companyRegisterForm').serializeObject()),
-            success: function(response) {
+            success: function() {
                 window.location.href = "http://localhost:8080/workshop3.rest/companies"
             }
         });

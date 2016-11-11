@@ -162,9 +162,9 @@
                         </div>
                     </div>
                 </form>
-            </div>
-            <div class="col-sm-2 center-block">
-                <button class="btn btn-primary" id="modifyActivityButton">Modify Activity</button>
+                <div class="col-sm-2 center-block">
+                    <button class="btn btn-primary" id="modifyActivityButton">Modify Activity</button>
+                </div>
             </div>
         </div>
 
@@ -173,7 +173,6 @@
                 initModifyActivity(${requestScope.get("id")});
         })
 
-        // Script voor geocomplete google maps address autocomplete
         $(document).ready(function() {
             $('.input-daterange input').each(function() {
                 $(this).datepicker({

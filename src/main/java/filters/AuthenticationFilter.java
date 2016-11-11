@@ -28,7 +28,7 @@ public class AuthenticationFilter implements Filter {
 
         HttpSession session = req.getSession(false);
 
-        if (session == null && !(uri.endsWith("html")) || uri.endsWith("loginServlet")) {
+        if (session == null && !(uri.endsWith("html")) || uri.endsWith("loginServlet")) { // TODO
             res.sendRedirect(req.getContextPath() + "/login");
         }
         else {

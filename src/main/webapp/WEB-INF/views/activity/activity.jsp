@@ -78,8 +78,6 @@
                     <div class="col-sm-12"><h2 id="Just to add a white line!"></h2></div>
                 </div>
 
-
-
                 <div class="panel panel-default col-sm-12">
                     <div class="panel-heading">
                         <h3 class="panel-title text-center">Location</h3>
@@ -109,13 +107,9 @@
                     </div>
                 </div>
 
-                <c:if test="${sessionScope.get('user').username == requestScope.get('activity').organiser.username}">
-                    <div class="col-sm-1 center-block">
-                        <a href="${pageContext.request.contextPath}/activities/modify/${requestScope.get('id')}" type="button" class="btn btn-primary">Edit Activity</a>
-                    </div>
-                </c:if>
-
-
+                <div class="col-sm-1 center-block">
+                    <a href="${pageContext.request.contextPath}/activities/modify/${requestScope.get('id')}" type="button" class="btn btn-primary">Edit Activity</a>
+                </div>
             </div>
         </div>
 
