@@ -1,10 +1,13 @@
 package beans.session;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.validation.*;
 
 /**
  *
@@ -24,14 +27,36 @@ public abstract class AbstractFacade<T> {
 	protected abstract EntityManager getEntityManager();
 
 	public T create(T entity) {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<T>> constraintViolations = validator.validate(entity);
+		if (constraintViolations.size() > 0) {
+			Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
+			while (iterator.hasNext()) {
+				ConstraintViolation<T> cv = iterator.next();
+				System.out.println(cv.getRootBeanClass().getName() + "." + cv.getPropertyPath() + " " + cv.getMessage());
+			}
+		} else {
 			getEntityManager().persist(entity);
 			return entity;
+		}
+		return null;
 	}
 
 	public void edit(T entity) {
-
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<T>> constraintViolations = validator.validate(entity);
+		if (constraintViolations.size() > 0) {
+			Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
+			while (iterator.hasNext()) {
+				ConstraintViolation<T> cv = iterator.next();
+				System.out.println(cv.getRootBeanClass().getName() + "." + cv.getPropertyPath() + " " + cv.getMessage());
+			}
+		} else {
 			getEntityManager().merge(entity);
 		}
+	}
 
 	public void remove(T entity) {
 		getEntityManager().remove(getEntityManager().merge(entity));
@@ -46,9 +71,11 @@ public abstract class AbstractFacade<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<T> withNamedQuery(String namedQuery, String parameter, Object value) {
+	public List<T> withNamedQuery(String namedQuery, String[] parameter, String[] variable) {
 		Query query = getEntityManager().createNamedQuery(namedQuery, entityClass);
-			query.setParameter(parameter, value);
+		for (int x = 0; x < parameter.length; x++) {
+			query.setParameter(parameter[x], variable[x]);
+		}
 		return query.getResultList();
 	}
 

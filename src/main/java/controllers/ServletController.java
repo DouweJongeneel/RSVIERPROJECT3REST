@@ -14,7 +14,7 @@ import java.util.List;
  * Created by douwejongeneel on 07/10/2016.
  */
 
-@WebServlet(name = "ServletController", loadOnStartup = 1, urlPatterns = {"/login", "/home", "/activities", "/activities/activity/*", "/activities/modify/*" ,"/activities/register", "/activities/admin",
+@WebServlet(name = "ServletController", loadOnStartup = 1, urlPatterns = {  "/login", "/home", "/activities", "/activities/activity/*", "/activities/modify/*" ,"/activities/register", "/activities/admin",
                                                                             "/users/admin" , "/register/user", "/users/USER/*", "/users/ADMIN/*",
                                                                             "/companies", "/register/company", "/users/COMPANY/*",
                                                                             "/orders/activity/*"
